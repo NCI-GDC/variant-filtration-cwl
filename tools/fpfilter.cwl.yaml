@@ -1,0 +1,166 @@
+#!/usr/bin/env cwl-runner
+
+description: |
+    description: "Running fpfilter"
+    Usage:  cwl-runner <this-file-path> options
+
+requirements:
+  - import: node-engine.cwl
+  - class: ShellCommandRequirement
+  - class: InlineJavascriptRequirement
+  - class: DockerRequirement
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:latest
+
+class: CommandLineTool
+
+inputs:
+  - id: "#vcf_file"
+    type: File
+    label: "Input VCF file"
+    description: "path to VCF file you wish to filter"
+    inputBinding:
+        prefix: --vcf-file
+
+  - id: "#bam_file"
+    type: File
+    label: "BAM file"
+    description: "path to BAM file of tumor sample"
+    inputBinding:
+        prefix: --bam-file
+        secondaryFiles:
+            - "^.bai"
+
+  - id: "#sample"
+    type: string
+    label: "sample"
+    description: "the sample name of the sample you want to filter on in the VCF file"
+    inputBinding:
+        prefix: --sample
+
+  - id: "#reference"
+    type: File
+    label: "reference"
+    description: "a fasta containing the reference sequence the BAM file was aligned to"
+    inputBinding:
+        prefix: --reference 
+        secondaryFiles:
+            - ".fai"
+
+  - id: "#output"
+    type: string
+    label: "output file"
+    description: "the filename of the output VCF file"
+    inputBinding:
+        prefix: --output
+
+  - id: "#min_read_pos"
+    type: float
+    default: 0.10
+    label: "Min read position"
+    description: "minimum average relative distance from start/end of read [0.10]" 
+    inputBinding:
+        prefix: --min-read-pos
+
+  - id: "#min_var_freq"
+    type: float
+    default: 0.05
+    label: "Min variant frequency"
+    description: "minimum variant allele frequency [0.05]"
+    inputBinding:
+        prefix: --min-var-freq
+
+  - id: "#min_var_count"
+    type: int 
+    default: 4 
+    label: "Min variant count"
+    description: "minimum number of variant-supporting reads [4]"
+    inputBinding:
+        prefix: --min-var-count
+
+  - id: "#min_strandedness"
+    type: float 
+    default: 0.01 
+    label: "Min strandedness"
+    description: "minimum representation of variant allele on each strand [0.01]"
+    inputBinding:
+        prefix: --min-strandedness
+
+  - id: "#max_mm_qualsum_diff"
+    type: int 
+    default: 50 
+    label: "Max qualsum diff"
+    description: "maximum difference of mismatch quality sum between variant and reference reads (paralog filter) [50]"
+    inputBinding:
+        prefix: --max-mm-qualsum-diff
+
+  - id: "#max_var_mm_qualsum"
+    type: int 
+    default: 100 
+    label: "Max var qualsum"
+    description: "maximum mismatch quality sum of reference-supporting reads [100]"
+    inputBinding:
+        prefix: --max_var_mm_qualsum
+
+  - id: "#max_mapqual_diff"
+    type: int 
+    default: 30 
+    label: "Max mapqual diff"
+    description: "maximum difference of mapping quality between variant and reference reads [30]"
+    inputBinding:
+        prefix: --max-mapqual-diff
+
+  - id: "#max_readlen_diff"
+    type: int 
+    default: 25 
+    label: "Max read length diff"
+    description: "maximum difference of average supporting read length between variant and reference reads (paralog filter) [25]"
+    inputBinding:
+        prefix: --max-readlen-diff
+
+  - id: "#min_var_dist_3"
+    type: float 
+    default: 0.20 
+    label: "Min ave distance"
+    description: "minimum average distance to effective 3prime end of read (real end or Q2) for variant-supporting reads [0.20]"
+    inputBinding:
+        prefix: --min-var-dist-3
+
+outputs:
+    - id: "#vcf_out"
+      type: File
+      description: "filtered VCF file"
+      outputBinding:
+          glob: $(inputs['output'])
+
+    - id: "#log_file"
+      type: File
+      description: "stdout file"
+      outputBinding:
+          glob: $(inputs['output'] + '.fpfilter.logs')
+
+    - id: "#time_file"
+      type: File
+      description: "time file"
+      outputBinding:
+          glob: $(inputs['output'] + '.fpfilter.time')
+
+baseCommand: ["/usr/bin/time", "-v"]
+
+arguments:
+  - valueFrom: $(inputs['output'] + '.fpfilter.time')
+    position: -99
+    prefix: "-o"
+
+  - valueFrom: "/usr/bin/perl"
+    position: -98
+
+  - valueFrom: "/home/ubuntu/tools/fpfilter-tool/fpfilter.pl"
+    position: -97
+
+  - valueFrom: $(inputs['output'] + '.fpfilter.logs')
+    position: 99 
+    prefix: ">"
+
+  - valueFrom: '2>&1' 
+    position: 100
+    shellQuote: false 
