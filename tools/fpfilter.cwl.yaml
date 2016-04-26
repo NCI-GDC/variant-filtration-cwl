@@ -9,7 +9,7 @@ requirements:
   - class: ShellCommandRequirement
   - class: InlineJavascriptRequirement
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/variant-filtration-tool:latest
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:0.1
 
 class: CommandLineTool
 
@@ -136,18 +136,18 @@ outputs:
       type: File
       description: "stdout file"
       outputBinding:
-          glob: $(inputs['output'] + '.fpfilter.logs')
+          glob: $(inputs['output'].substr(0, inputs['output_file'].lastIndexOf('.')) + '.logs')
 
     - id: "#time_file"
       type: File
       description: "time file"
       outputBinding:
-          glob: $(inputs['output'] + '.fpfilter.time')
+          glob: $(inputs['output'].substr(0, inputs['output_file'].lastIndexOf('.')) + '.time')
 
 baseCommand: ["/usr/bin/time", "-v"]
 
 arguments:
-  - valueFrom: $(inputs['output'] + '.fpfilter.time')
+  - valueFrom: $(inputs['output'].substr(0, inputs['output_file'].lastIndexOf('.')) + '.time')
     position: -99
     prefix: "-o"
 
@@ -157,7 +157,7 @@ arguments:
   - valueFrom: "/home/ubuntu/tools/fpfilter-tool/fpfilter.pl"
     position: -97
 
-  - valueFrom: $(inputs['output'] + '.fpfilter.logs')
+  - valueFrom: $(inputs['output'].substr(0, inputs['output_file'].lastIndexOf('.')) + '.logs')
     position: 99 
     prefix: ">"
 
