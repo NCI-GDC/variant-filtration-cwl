@@ -55,7 +55,7 @@ inputs:
 
   - id: "#min_read_pos"
     type: float
-    default: 0.10
+    default: null
     label: "Min read position"
     description: "minimum average relative distance from start/end of read [0.10]" 
     inputBinding:
@@ -63,7 +63,7 @@ inputs:
 
   - id: "#min_var_freq"
     type: float
-    default: 0.05
+    default: null
     label: "Min variant frequency"
     description: "minimum variant allele frequency [0.05]"
     inputBinding:
@@ -71,7 +71,7 @@ inputs:
 
   - id: "#min_var_count"
     type: int 
-    default: 4 
+    default: null
     label: "Min variant count"
     description: "minimum number of variant-supporting reads [4]"
     inputBinding:
@@ -79,7 +79,7 @@ inputs:
 
   - id: "#min_strandedness"
     type: float 
-    default: 0.01 
+    default: null
     label: "Min strandedness"
     description: "minimum representation of variant allele on each strand [0.01]"
     inputBinding:
@@ -87,7 +87,7 @@ inputs:
 
   - id: "#max_mm_qualsum_diff"
     type: int 
-    default: 50 
+    default: null
     label: "Max qualsum diff"
     description: "maximum difference of mismatch quality sum between variant and reference reads (paralog filter) [50]"
     inputBinding:
@@ -95,7 +95,7 @@ inputs:
 
   - id: "#max_var_mm_qualsum"
     type: int 
-    default: 100 
+    default: null
     label: "Max var qualsum"
     description: "maximum mismatch quality sum of reference-supporting reads [100]"
     inputBinding:
@@ -103,7 +103,7 @@ inputs:
 
   - id: "#max_mapqual_diff"
     type: int 
-    default: 30 
+    default: null
     label: "Max mapqual diff"
     description: "maximum difference of mapping quality between variant and reference reads [30]"
     inputBinding:
@@ -111,7 +111,7 @@ inputs:
 
   - id: "#max_readlen_diff"
     type: int 
-    default: 25 
+    default: null
     label: "Max read length diff"
     description: "maximum difference of average supporting read length between variant and reference reads (paralog filter) [25]"
     inputBinding:
@@ -119,7 +119,7 @@ inputs:
 
   - id: "#min_var_dist_3"
     type: float 
-    default: 0.20 
+    default: null
     label: "Min ave distance"
     description: "minimum average distance to effective 3prime end of read (real end or Q2) for variant-supporting reads [0.20]"
     inputBinding:
@@ -136,18 +136,18 @@ outputs:
       type: File
       description: "stdout file"
       outputBinding:
-          glob: $(inputs['output'].substr(0, inputs['output_file'].lastIndexOf('.')) + '.logs')
+          glob: $(inputs['output'].substr(0, inputs['output'].lastIndexOf('.')) + '.logs')
 
     - id: "#time_file"
       type: File
       description: "time file"
       outputBinding:
-          glob: $(inputs['output'].substr(0, inputs['output_file'].lastIndexOf('.')) + '.time')
+          glob: $(inputs['output'].substr(0, inputs['output'].lastIndexOf('.')) + '.time')
 
 baseCommand: ["/usr/bin/time", "-v"]
 
 arguments:
-  - valueFrom: $(inputs['output'].substr(0, inputs['output_file'].lastIndexOf('.')) + '.time')
+  - valueFrom: $(inputs['output'].substr(0, inputs['output'].lastIndexOf('.')) + '.time')
     position: -99
     prefix: "-o"
 
@@ -157,7 +157,7 @@ arguments:
   - valueFrom: "/home/ubuntu/tools/fpfilter-tool/fpfilter.pl"
     position: -97
 
-  - valueFrom: $(inputs['output'].substr(0, inputs['output_file'].lastIndexOf('.')) + '.logs')
+  - valueFrom: $(inputs['output'].substr(0, inputs['output'].lastIndexOf('.')) + '.logs')
     position: 99 
     prefix: ">"
 
