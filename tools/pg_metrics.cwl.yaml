@@ -89,6 +89,14 @@ inputs:
     inputBinding:
         prefix: --postgres_config
 
+  - id: "#input_file"
+    type: File
+    default: null
+    label: "Input File"
+    description: "Path to input file for md5" 
+    inputBinding:
+        prefix: --input_file
+
 outputs: []
 
 baseCommand: ["/home/ubuntu/.virtualenvs/p3/bin/python", "/home/ubuntu/tools/variant-filtration-tool/main.py", "postgres"]

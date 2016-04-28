@@ -27,8 +27,13 @@ inputs:
     description: "path to BAM file of tumor sample"
     inputBinding:
         prefix: --bam-file
-        secondaryFiles:
-            - "^.bai"
+
+  - id: "#bam_index"
+    type: File
+    label: "BAI file"
+    description: "path to BAI file of tumor sample"
+    inputBinding:
+        prefix: --bam-index
 
   - id: "#sample"
     type: string
