@@ -1,0 +1,122 @@
+#!/usr/bin/env cwl-runner
+
+class: Workflow
+
+requirements:
+  - class: InlineJavascriptRequirement
+  - class: StepInputExpressionRequirement
+
+inputs:
+  - id: "#postgres_config"
+    type: File
+    description: "postgres config file"
+  - id: "#host"
+    type: string
+    description: "postgres host name"
+  - id: "#input_vcf"
+    type: File
+    description: "The vcf file you want to filter"
+  - id: "#input_bam"
+    type: File
+    description: "The indexed BAM file for the tumor sample" 
+  - id: "#vcf_id"
+    type: string
+    description: "The VCF ID for output files."
+  - id: "#src_vcf_id"
+    type: string
+    description: "The input (source) VCF ID."
+  - id: "#case_id"
+    type: string
+    default: null
+    description: "The case ID."
+  - id: "#patient_barcode"
+    type: string
+    default: null
+    description: "The patient barcode."
+  - id: "#tumor_barcode"
+    type: string
+    default: null
+    description: "The tumor sample barcode."
+  - id: "#tumor_aliquot_uuid"
+    type: string
+    default: null
+    description: "The tumor sample barcode."
+  - id: "#tumor_bam_uuid"
+    type: string
+    default: null
+    description: "The tumor BAM unique ID."
+  - id: "#normal_barcode"
+    type: string
+    default: null
+    description: "The normal sample barcode."
+  - id: "#normal_aliquot_uuid"
+    type: string
+    default: null
+    description: "The normal sample barcode."
+  - id: "#normal_bam_uuid"
+    type: string
+    default: null
+    description: "The normal BAM unique ID."
+  - id: "#vcf_tumor_id"
+    type: string
+    default: "TUMOR"
+    description: "The tumor ID in the VCF file"
+  - id: "#reference"
+    type: File
+    description: "Reference FASTA file"
+  - id: "#threads"
+    type: int
+    default: null
+    description: "Number of threads to use for sambamba index"
+
+outputs:
+  - id: "#fpfilter_log_file"
+    type: File
+    source: "#fpfilter.log_file"
+  - id: "#fpfilter_vcf_file"
+    type: File
+    source: "#gzip.gzip_out"
+
+steps:
+  - id: "#bam-index"
+    run: {import: ../tools/sambamba_index.cwl.yaml}
+    inputs:
+      - {id: "#bam-index.threads", source: "#threads"}
+      - {id: "#bam-index.bam_file", source: "#input_bam"}
+    outputs:
+      - id: "#bam-index.bai"
+      - id: "#bam-index.log_file"
+      - id: "#bam-index.time_file"
+  - id: "#fpfilter"
+    run: {import: ../tools/fpfilter.cwl.yaml}
+    inputs:
+      - {id: "#fpfilter.vcf_file", source: "#input_vcf"}
+      - {id: "#fpfilter.bam_file", source: "#input_bam"}
+      - {id: "#fpfilter.bam_index", source: "#bam-index.bai"}
+      - {id: "#fpfilter.sample", source: "#vcf_tumor_id"}
+      - {id: "#fpfilter.reference", source: "#reference"}
+      - {id: "#fpfilter.output", source: "#vcf_id", valueFrom: "$(self + '.variant_filtration.vcf')"}
+    outputs:
+      - id: "#fpfilter.vcf_out"
+      - id: "#fpfilter.log_file"
+      - id: "#fpfilter.time_file"
+  - id: "#gzip"
+    run: {import: ../tools/gzip.cwl.yaml}
+    inputs:
+      - {id: "#gzip.input_file", source: "#fpfilter.vcf_out"}
+    outputs:
+      - id: "#gzip.gzip_out"
+  - id: "#fpfilter-pg"
+    run: {import: ../tools/pg_metrics.cwl.yaml}
+    inputs:
+      - {id: "#fpfilter-pg.tool", default: "fpfilter"}
+      - {id: "#fpfilter-pg.time_file", source: "#fpfilter.time_file"}
+      - {id: "#fpfilter-pg.normal_id", source: "#normal_bam_uuid"}
+      - {id: "#fpfilter-pg.tumor_id", source: "#tumor_bam_uuid"}
+      - {id: "#fpfilter-pg.input_uuid", source: "#src_vcf_id"}
+      - {id: "#fpfilter-pg.output_uuid", source: "#vcf_id"}
+      - {id: "#fpfilter-pg.case_id", source: "#case_id"}
+      - {id: "#fpfilter-pg.postgres_config", source: "#postgres_config"}
+      - {id: "#fpfilter-pg.host", source: "#host"}
+      - {id: "#fpfilter-pg.input_file", source: "#gzip.gzip_out"}
+    outputs: []
