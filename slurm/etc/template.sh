@@ -26,7 +26,7 @@ refdir="{REFDIR}"
 s3dir="{S3DIR}"
 basedir="{BASEDIR}"
 repository="git@github.com:NCI-GDC/variant-filtration-cwl.git"
-wkdir=`sudo mktemp -d vep.XXXXXXXXXX -p $basedir`
+wkdir=`sudo mktemp -d fp.XXXXXXXXXX -p $basedir`
 sudo chown ubuntu:ubuntu $wkdir
 
 cd $wkdir
@@ -37,7 +37,7 @@ function cleanup (){{
 }}
 
 sudo git clone -b feat/slurm $repository
-sudo chown ubuntu:ubuntu -R vep-cwl
+sudo chown ubuntu:ubuntu -R variant-filtration-cwl
 
 trap cleanup EXIT
 
