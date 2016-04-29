@@ -208,7 +208,7 @@ def run_cwl(args):
 
     #remove work and input directories
     logger.info("Removing files")
-    #utils.pipeline.remove_dir(uniqdir)
+    utils.pipeline.remove_dir(uniqdir)
 
 def handle_gzip_vcf(logger, input_vcf, inp, cwl_start, uniqdir, args, vcf_uuid, datetime_now, pg_config):
     ''' Unzips a gz vcf file and handles cases where it fails '''
