@@ -118,6 +118,7 @@ def run_cwl(args):
     ref_fasta    = os.path.join(index, "GRCh38.d1.vd1.fa") 
     pg_config    = os.path.join(index, "postgres_config")
 
+    #NOTE: I don't push anything to s3 for jobs that fail on downloading. Not sure if I should or not.
     # Download input vcf
     logger.info("getting input VCF")
     input_vcf = os.path.join(inp, os.path.basename(args.input_vcf))
@@ -130,9 +131,7 @@ def run_cwl(args):
 
     # Unzip input VCF if gzip
     if input_vcf.endswith('.gz'):
-        logger.info("unzipping input VCF")
-        exit_code = utils.pipeline.gzip_decompress(logger, input_vcf)
-        input_vcf = input_vcf.replace('.gz','')
+        input_vcf = handle_gzip_vcf(logger, input_vcf, inp, cwl_start, uniqdir, args, vcf_uuid, datetime_now, pg_config)
 
     # Start CWL
     os.chdir(workdir)
@@ -162,7 +161,6 @@ def run_cwl(args):
         cwl_failure = True
 
     #upload results to s3
-
     logger.info("Uploading to s3")
     fpfilter_location   = os.path.join(args.s3dir, str(vcf_uuid))
     vcf_file            = "%s.fpfilter.vcf.gz" %(str(vcf_uuid))
@@ -209,6 +207,27 @@ def run_cwl(args):
     #remove work and input directories
     logger.info("Removing files")
     #utils.pipeline.remove_dir(uniqdir)
+
+def handle_gzip_vcf(logger, input_vcf, inp, cwl_start, uniqdir, args, vcf_uuid, datetime_now, pg_config):
+    ''' Unzips a gz vcf file and handles cases where it fails '''
+    logger.info("Decompressing input VCF")
+    exit_code = utils.pipeline.gzip_decompress(logger, input_vcf)
+    if exit_code != 0:
+        cwl_end     = time.time()
+        cwl_elapsed = cwl_end - cwl_start
+        engine      = postgres.utils.get_db_engine(pg_config)
+        postgres.status.set_gzip_error(exit_code, args.case_id, str(vcf_uuid),
+            args.src_vcf_id, [args.normal_bam_uuid, args.tumor_bam_uuid],
+            datetime_now, str(args.threads), cwl_elapsed, engine, logger) 
+
+        #remove work and input directories
+        logger.info("Removing files")
+        utils.pipeline.remove_dir(uniqdir)
+
+        # Exit
+        sys.exit(exit_code)
+
+    return input_vcf.replace('.gz','')
 
 def get_input_vcf(logger, input_vcf, inp, cwl_start, uniqdir, args, vcf_uuid, datetime_now, pg_config):
     '''Pulls down vcf''' 
