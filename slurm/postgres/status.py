@@ -89,6 +89,28 @@ def set_gzip_error(exit_code, case_id, vcf_id, src_vcf_id, file_ids,
     postgres.utils.create_table(engine, met)
     postgres.utils.add_metrics(engine, met)
 
+def set_no_input_variants_error(case_id, vcf_id, src_vcf_id, file_ids,
+                   datetime_now, threads, elapsed, engine, logger): 
+    ''' Sets the status for input VCF files with no variants '''
+    loc    = 'UNKNOWN'
+    md5    = 'UNKNOWN'
+
+    logger.info('Error! Input VCF has no variants!')
+    status = 'NO_INPUT_VARIANTS' 
+    add_status(engine, case_id, vcf_id, src_vcf_id, file_ids, status, loc, datetime_now, md5)
+    # Set metrics table
+    met = postgres.time.Time(case_id = case_id,
+               datetime_now = datetime_now,
+               vcf_id       = vcf_id,
+               src_vcf_id   = src_vcf_id,
+               files        = file_ids,
+               elapsed      = elapsed,
+               thread_count = threads,
+               status = status)
+
+    postgres.utils.create_table(engine, met)
+    postgres.utils.add_metrics(engine, met)
+
 def get_status(exit, cwl_failure, vcf_upload_location, vep_location, logger):
     """ get the status of job based on s3upload and cwl status """
 

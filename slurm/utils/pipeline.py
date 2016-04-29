@@ -7,6 +7,7 @@ import logging
 import os
 import shutil
 import hashlib
+import gzip
 
 def run_command(cmd, logger=None, shell_var=False):
     '''
@@ -85,3 +86,15 @@ def get_md5(input_file):
             hasher.update(buf)
             buf = afile.read(BLOCKSIZE)
     return hasher.hexdigest()
+
+def has_variants_check(filename):
+    ''' Checks if there are any variants '''
+    reader = gzip.open(filename, 'rt') if filename.endswith('.gz') else open(filename, 'r')
+    counts = 0
+    for line in reader:
+        if line.startswith('#'): continue
+        elif counts > 0: break
+        else: counts += 1
+
+    reader.close()
+    return counts > 0 

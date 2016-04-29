@@ -123,15 +123,17 @@ def run_cwl(args):
     logger.info("getting input VCF")
     input_vcf = os.path.join(inp, os.path.basename(args.input_vcf))
     get_input_vcf(logger, input_vcf, inp, cwl_start, uniqdir, args, vcf_uuid, datetime_now, pg_config)
-    
+
+    # Unzip input VCF if gzip
+    if input_vcf.endswith('.gz'):
+        input_vcf = handle_gzip_vcf(logger, input_vcf, inp, cwl_start, uniqdir, args, vcf_uuid, datetime_now, pg_config)
+
     # Download input bam 
     logger.info("getting input BAM")
     input_bam = os.path.join(inp, os.path.basename(args.input_bam))
     get_input_bam(logger, input_bam, inp, cwl_start, uniqdir, args, vcf_uuid, datetime_now, pg_config)
 
-    # Unzip input VCF if gzip
-    if input_vcf.endswith('.gz'):
-        input_vcf = handle_gzip_vcf(logger, input_vcf, inp, cwl_start, uniqdir, args, vcf_uuid, datetime_now, pg_config)
+
 
     # Start CWL
     os.chdir(workdir)
@@ -263,6 +265,22 @@ def get_input_vcf(logger, input_vcf, inp, cwl_start, uniqdir, args, vcf_uuid, da
         postgres.status.set_download_error(s3_exit_code, args.case_id, str(vcf_uuid),
             args.src_vcf_id, [args.normal_bam_uuid, args.tumor_bam_uuid],
             datetime_now, str(args.threads), cwl_elapsed, engine, logger, 'VCF')
+
+        #remove work and input directories
+        logger.info("Removing files")
+        utils.pipeline.remove_dir(uniqdir)
+
+        # Exit
+        sys.exit(1)
+
+    # If the VCF has no variants
+    elif not utils.pipeline.has_variants_check(input_vcf):
+        cwl_end     = time.time()
+        cwl_elapsed = cwl_end - cwl_start
+        engine = postgres.utils.get_db_engine(pg_config)
+        postgres.status.set_no_input_variants_error(args.case_id, str(vcf_uuid),
+            args.src_vcf_id, [args.normal_bam_uuid, args.tumor_bam_uuid],
+            datetime_now, str(args.threads), cwl_elapsed, engine, logger)
 
         #remove work and input directories
         logger.info("Removing files")
