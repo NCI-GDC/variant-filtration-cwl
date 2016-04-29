@@ -29,30 +29,10 @@ inputs:
     type: string
     default: null
     description: "The case ID."
-  - id: "#patient_barcode"
-    type: string
-    default: null
-    description: "The patient barcode."
-  - id: "#tumor_barcode"
-    type: string
-    default: null
-    description: "The tumor sample barcode."
-  - id: "#tumor_aliquot_uuid"
-    type: string
-    default: null
-    description: "The tumor sample barcode."
   - id: "#tumor_bam_uuid"
     type: string
     default: null
     description: "The tumor BAM unique ID."
-  - id: "#normal_barcode"
-    type: string
-    default: null
-    description: "The normal sample barcode."
-  - id: "#normal_aliquot_uuid"
-    type: string
-    default: null
-    description: "The normal sample barcode."
   - id: "#normal_bam_uuid"
     type: string
     default: null
@@ -95,7 +75,7 @@ steps:
       - {id: "#fpfilter.bam_index", source: "#bam-index.bai"}
       - {id: "#fpfilter.sample", source: "#vcf_tumor_id"}
       - {id: "#fpfilter.reference", source: "#reference"}
-      - {id: "#fpfilter.output", source: "#vcf_id", valueFrom: "$(self + '.variant_filtration.vcf')"}
+      - {id: "#fpfilter.output", source: "#vcf_id", valueFrom: "$(self + '.fpfilter.vcf')"}
     outputs:
       - id: "#fpfilter.vcf_out"
       - id: "#fpfilter.log_file"
