@@ -45,6 +45,9 @@ inputs:
   vcf_metadata:
     doc: VCF metadata record
     type: "../tools/schemas.cwl#vcf_metadata_record"
+  oxoq_score:
+    doc: oxoq score from picard
+    type: float
  
 outputs:
   fpfilter_time:
@@ -113,6 +116,7 @@ steps:
     in:
       input_snp_vcf: dkfzWorkflow/dkfz_vcf
       bam: tumor_bam
+      oxoq_score: oxoq_score
       bam_index: tumor_bam_index
       full_reference_sequence: full_ref_fasta
       full_reference_sequence_index: full_ref_fasta_index

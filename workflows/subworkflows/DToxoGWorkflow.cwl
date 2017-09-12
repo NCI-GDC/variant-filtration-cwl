@@ -21,9 +21,7 @@ inputs:
   main_reference_sequence_index: File
   main_reference_sequence_dictionary: File
   uuid: string
-  oxoq_score:
-    type: float?
-    default: 0.30
+  oxoq_score: float
 
 outputs:
   dtoxog_archive:

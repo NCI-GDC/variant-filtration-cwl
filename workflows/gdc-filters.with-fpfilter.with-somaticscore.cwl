@@ -53,6 +53,9 @@ inputs:
     doc: If the somatic score is less than this value, add filter tag 
     type: int?
     default: 40 
+  oxoq_score:
+    doc: oxoq score from picard
+    type: float
 
 outputs:
   fpfilter_time:
@@ -138,6 +141,7 @@ steps:
     run: ./subworkflows/DToxoGWorkflow.cwl
     in:
       input_snp_vcf: dkfzWorkflow/dkfz_vcf
+      oxoq_score: oxoq_score
       bam: tumor_bam
       bam_index: tumor_bam_index
       full_reference_sequence: full_ref_fasta
