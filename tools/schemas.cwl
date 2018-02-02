@@ -36,19 +36,3 @@ types:
         type: string
       - name: normal_bam_uuid
         type: string
-      - name: caller_workflow_id
-        type: string
-      - name: caller_workflow_name
-        type: string
-      - name: caller_workflow_description
-        type: string?
-      - name: caller_workflow_version
-        type: string
-      - name: annotation_workflow_id
-        type: string
-      - name: annotation_workflow_name
-        type: string
-      - name: annotation_workflow_description
-        type: string?
-      - name: annotation_workflow_version
-        type: string

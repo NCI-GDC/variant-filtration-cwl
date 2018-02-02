@@ -8,7 +8,7 @@ doc: |
 
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/variant-filtration-tool:2.5 
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:2.7
   - class: InlineJavascriptRequirement
 
 inputs:
@@ -69,48 +69,6 @@ inputs:
     type: string
     inputBinding:
       prefix: --normal_bam_uuid
-
-  caller_workflow_id:
-    type: string
-    inputBinding:
-      prefix: --caller_workflow_id
-
-  caller_workflow_name:
-    type: string
-    inputBinding:
-      prefix: --caller_workflow_name
-
-  caller_workflow_description:
-    type: string?
-    inputBinding:
-      prefix: --caller_workflow_description
-
-  caller_workflow_version:
-    type: string?
-    default: "1.0"
-    inputBinding:
-      prefix: --caller_workflow_version
-
-  annotation_workflow_id:
-    type: string
-    inputBinding:
-      prefix: --annotation_workflow_id
-
-  annotation_workflow_name:
-    type: string
-    inputBinding:
-      prefix: --annotation_workflow_name
-
-  annotation_workflow_description:
-    type: string?
-    inputBinding:
-      prefix: --annotation_workflow_description
-
-  annotation_workflow_version:
-    type: string?
-    default: "1.0"
-    inputBinding:
-      prefix: --annotation_workflow_version
 
 outputs:
   output_vcf_file:
