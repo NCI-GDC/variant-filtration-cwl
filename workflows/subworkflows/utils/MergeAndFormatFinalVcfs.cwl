@@ -17,7 +17,6 @@ inputs:
   main_reference_sequence_dictionary: File
   vcf_metadata: "../../../tools/schemas.cwl#vcf_metadata_record"
   uuid: string
-  caller: string
 
 outputs:
   processed_vcf:
@@ -95,6 +94,6 @@ steps:
     in:
       input_vcf: format_header/output_vcf_file
       output_filename:
-        source: [uuid, caller]
-        valueFrom: $(self[0] + '.' + self[1] + '.variant_filtration.vcf.gz')
+        source: uuid
+        valueFrom: $(self + '.variant_filtration.vcf.gz')
     out: [ output_file ]

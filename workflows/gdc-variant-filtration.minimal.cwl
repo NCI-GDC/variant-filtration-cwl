@@ -12,6 +12,15 @@ requirements:
   - $import: ../tools/schemas.cwl
 
 inputs:
+  project_id:
+    type: string?
+    doc: GDC project id used for output filenames
+  experimental_strategy:
+    type: string
+    doc: GDC experimental strategy used for output filenames
+  caller_id:
+    type: string
+    doc: GDC caller id used for output filenames
   bioclient_config:
     type: File
   upload_bucket:
@@ -34,9 +43,6 @@ inputs:
   job_uuid:
     type: string
     doc: UUID to use for the job 
-  caller:
-    type: string
-    doc: the caller id, used for the file names
   full_ref_fasta_id:
     doc: Full reference fasta containing all scaffolds
     type: string 
@@ -136,14 +142,22 @@ steps:
       db_file: prepare_files/dnaseq_metrics_db
     out: [oxoq_score]
 
+  get_filename_prefix:
+    run: ../tools/make_file_prefix.cwl
+    in:
+      project_id: project_id
+      caller_id: caller_id
+      job_id: job_uuid 
+      experimental_strategy: experimental_strategy
+    out: [ output ]
+  
   run_filter:
     run: ./subworkflows/gdc-filters.minimal.cwl
     in:
       input_vcf: prepare_files/input_vcf
       tumor_bam: prepare_files/tumor_coclean_bam
       tumor_bam_index: prepare_files/tumor_coclean_bam_index
-      job_uuid: job_uuid
-      caller: caller
+      file_prefix: get_filename_prefix/output 
       full_ref_fasta: prepare_files/full_ref_fasta
       full_ref_fasta_index: prepare_files/full_ref_fai
       full_ref_dictionary: prepare_files/full_ref_dictionary
@@ -161,8 +175,8 @@ steps:
         - run_filter/dkfz_qc_archive
         - run_filter/dtoxog_archive
       output_archive_name:
-        source: [job_uuid, caller]
-        valueFrom: $(self[0] + '.' + self[1] + '.variant_filtration_archive.tar.gz')
+        source: get_filename_prefix/output 
+        valueFrom: $(self + '.variant_filtration_archive.tar.gz')
     out: [ output_archive ]
 
   upload_vcf:

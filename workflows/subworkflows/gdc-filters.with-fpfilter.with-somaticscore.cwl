@@ -21,12 +21,8 @@ inputs:
   tumor_bam_index:
     type: File
     doc: The tumor BAI file
-  job_uuid:
+  file_prefix: 
     type: string
-    doc: UUID to use for output files
-  caller:
-    type: string
-    doc: the caller id, used for the file names
   full_ref_fasta:
     doc: Full reference fasta containing all scaffolds
     type: File
@@ -88,7 +84,7 @@ steps:
       input_vcf: input_vcf
       sequence_dictionary: full_ref_dictionary
       output_filename:
-        source: job_uuid
+        source: file_prefix 
         valueFrom: "$(self + '.first.dict.vcf')"
     out: [ output_file ]
 
@@ -97,7 +93,7 @@ steps:
     in:
       input_vcf: firstUpdate/output_file 
       output_filename:
-        source: job_uuid
+        source: file_prefix 
         valueFrom: "$(self + '.first.fmt.vcf.gz')"
     out: [ output_file ]
 
@@ -107,7 +103,7 @@ steps:
       input_vcf: firstFormatVcf/output_file 
       drop_somatic_score: drop_somatic_score
       min_somatic_score: min_somatic_score
-      uuid: job_uuid
+      uuid: file_prefix 
     out: [ somaticscore_vcf ]
 
   fpfilterWorkflow:
@@ -116,7 +112,7 @@ steps:
       input_vcf: somaticScoreWorkflow/somaticscore_vcf
       input_bam: tumor_bam
       input_bam_index: tumor_bam_index
-      uuid: job_uuid
+      uuid: file_prefix 
       reference_sequence: full_ref_fasta
       reference_sequence_index: full_ref_fasta_index
     out: [ fpfilter_vcf, fpfilter_time ]
@@ -125,7 +121,7 @@ steps:
     run: ./utils/FormatInputVcfWorkflow.cwl
     in:
       input_vcf: fpfilterWorkflow/fpfilter_vcf 
-      uuid: job_uuid 
+      uuid: file_prefix 
       sequence_dictionary: full_ref_dictionary 
     out: [ snv_vcf, indel_vcf ]
 
@@ -137,7 +133,7 @@ steps:
       bam_index: tumor_bam_index
       reference_sequence: full_ref_fasta
       reference_sequence_index: full_ref_fasta_index
-      uuid: job_uuid
+      uuid: file_prefix 
     out: [ dkfz_vcf, dkfz_qc_archive, dkfz_time_record ]
 
   dtoxogWorkflow:
@@ -153,7 +149,7 @@ steps:
       main_reference_sequence: main_ref_fasta
       main_reference_sequence_index: main_ref_fasta_index
       main_reference_sequence_dictionary: main_ref_dictionary
-      uuid: job_uuid
+      uuid: file_prefix 
     out: [ dtoxog_archive, dtoxog_vcf ] 
 
   formatFinalWorkflow:
@@ -164,6 +160,5 @@ steps:
       full_reference_sequence_dictionary: full_ref_dictionary
       main_reference_sequence_dictionary: main_ref_dictionary
       vcf_metadata: vcf_metadata
-      uuid: job_uuid
-      caller: caller
+      uuid: file_prefix 
     out: [ processed_vcf ]
