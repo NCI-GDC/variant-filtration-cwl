@@ -8,7 +8,7 @@ doc: |
 
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/variant-filtration-tool:2.5 
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:2.7
   - class: InlineJavascriptRequirement
 
 inputs:
