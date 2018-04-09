@@ -40,6 +40,9 @@ inputs:
   tumor_realn_bam_index_id:
     type: string 
     doc: The tumor cocleaned bai uuid
+  sqlite_input_state:
+    type: string
+    doc: The value for input_state column to filter
   job_uuid:
     type: string
     doc: UUID to use for the job 
@@ -148,6 +151,7 @@ steps:
     run: ../tools/ExtractOxoqFromSqlite.cwl
     in:
       db_file: prepare_files/dnaseq_metrics_db
+      input_state: sqlite_input_state
     out: [oxoq_score]
 
   get_filename_prefix:
