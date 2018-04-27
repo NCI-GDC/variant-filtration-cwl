@@ -8,7 +8,7 @@ doc: |
 
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/gdc-biasfilter-tool:0.4
+    dockerPull: quay.io/ncigdc/gdc-biasfilter-tool:3839a594cab6b8576e76124061cf222fb3719f20
   - class: InlineJavascriptRequirement
 
 inputs:
@@ -41,4 +41,4 @@ outputs:
     secondaryFiles:
         - ".tbi" 
 
-baseCommand: [/home/ubuntu/.virtualenvs/p2/bin/python, /home/ubuntu/tools/gdc-biasfilter-tool/AddOxoGFiltersToVcf.py]
+baseCommand: [/opt/gdc-biasfilter-tool/AddOxoGFiltersToVcf.py]

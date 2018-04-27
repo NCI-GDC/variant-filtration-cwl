@@ -8,7 +8,7 @@ doc: |
 
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/gdc-biasfilter-tool:0.4
+    dockerPull: quay.io/ncigdc/gdc-biasfilter-tool:3839a594cab6b8576e76124061cf222fb3719f20
   - class: InlineJavascriptRequirement
 
 inputs:
@@ -61,4 +61,4 @@ outputs:
     secondaryFiles:
       - ".idx"
 
-baseCommand: [java, -Xmx4G, -jar, /home/ubuntu/tools/picard-2.9.0/picard.jar, SplitVcfs]
+baseCommand: [java, -Xmx4G, -jar, /opt/picard.jar, SplitVcfs]
