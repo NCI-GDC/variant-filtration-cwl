@@ -1,10 +1,10 @@
 #!/usr/bin/env cwl-runner
 
 class: CommandLineTool
-label: "ContigFilter"
+label: "PosFilterForDkfz"
 cwlVersion: v1.0
 doc: |
-    Reduce VCF to contigs present in header
+    Reduce SNV VCF to positions that are ok for DKFZ
 
 requirements:
   - class: DockerRequirement
@@ -14,7 +14,7 @@ requirements:
 inputs:
   input_vcf:
     type: File
-    doc: "input vcf file"
+    doc: "input snp vcf file"
     inputBinding:
       prefix: --input_vcf
 
@@ -30,4 +30,4 @@ outputs:
     outputBinding:
       glob: $(inputs.output_vcf)
 
-baseCommand: [python3, /opt/variant-filtration-tool/FilterContigs.py] 
+baseCommand: [python3, /opt/variant-filtration-tool/PosFilterForDkfz.py] 
