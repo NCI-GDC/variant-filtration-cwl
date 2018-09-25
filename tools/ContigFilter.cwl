@@ -8,7 +8,7 @@ doc: |
 
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/variant-filtration-tool:384f593b3dfc43acfc31d02e75589d2e2545008c 
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:920c0615f6df7c4bbb7adc1f0e82606bd53e5277 
   - class: InlineJavascriptRequirement
 
 inputs:
@@ -30,4 +30,4 @@ outputs:
     outputBinding:
       glob: $(inputs.output_vcf)
 
-baseCommand: [python3, /opt/variant-filtration-tool/FilterContigs.py] 
+baseCommand: [python3, /variant-filtration-tool/FilterContigs.py] 
