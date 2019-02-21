@@ -1,22 +1,8 @@
 GDC Variant Filtration CWL
 ---
 
-This workflow currently only runs fpfilter and filtering of somaticsniper somatic scores.
+There are multiple workflows present in this repository:
 
-## To run workflow
-
-1. Stage input files
-    * input VCF
-    * input tumor bam
-    * indexed reference
-    * creds
-2. Run appropriate workflow:
-    * VarScan2 - `variant-filtration.fpfilter.cwl.yaml`
-    * SomaticSniper - `variant-filtration.fpfilter.somaticscore.cwl.yaml`
-3. Install cwltool
-4. Run workflow
-
-## Docker tools used
-
-https://quay.io/repository/ncigdc/variant-filtration-tool <br>
-Contains fpfilter, bam-readcount, samtools, sambamba, and support scripts
+* `gdc-variant-filtration.minimal.cwl` - minimal filters (e.g., MuTect2 and MuSE)
+* `gdc-variant-filtration.with-fpfilter.cwl` - minimal + fpfilter (e.g., VarScan2)
+* `gdc-variant-filtration.with-fpfilter.with-somaticscore.cwl` - minimal + fpfilter + somaticscore (e.g., SomaticSniper)
