@@ -1,11 +1,8 @@
-#!/usr/bin/env cwl-runner
-
 cwlVersion: v1.0
-
+class: ExpressionTool
+id: make_file_prefix
 requirements:
   - class: InlineJavascriptRequirement
-
-class: ExpressionTool
 
 inputs:
   project_id:
