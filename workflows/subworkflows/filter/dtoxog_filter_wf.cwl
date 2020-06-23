@@ -1,9 +1,6 @@
-#!/usr/bin/env cwl-runner
-
 cwlVersion: v1.0
-
 class: Workflow
-
+id: dtoxog_filter_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement

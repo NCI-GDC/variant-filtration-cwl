@@ -1,9 +1,6 @@
-#!/usr/bin/env cwl-runner
-
 cwlVersion: v1.0
-
 class: Workflow
-
+id: format_input_vcf_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement

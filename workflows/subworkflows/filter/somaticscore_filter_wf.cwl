@@ -1,9 +1,6 @@
-#!/usr/bin/env cwl-runner
-
 cwlVersion: v1.0
-
 class: Workflow
-
+id: somatic_score_filtering_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement

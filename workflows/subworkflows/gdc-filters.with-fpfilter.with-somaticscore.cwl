@@ -1,9 +1,6 @@
-#!/usr/bin/env cwl-runner
-
 cwlVersion: v1.0
-
 class: Workflow
-
+id: gdc_filters_with_fpfilter_with_somaticscore_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement

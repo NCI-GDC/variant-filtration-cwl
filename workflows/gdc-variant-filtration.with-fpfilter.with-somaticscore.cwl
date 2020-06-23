@@ -1,9 +1,6 @@
-#!/usr/bin/env cwl-runner
-
 cwlVersion: v1.0
-
 class: Workflow
-
+id: gpas_variant_filtration_fpfilter_somaticscore_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
@@ -122,7 +119,7 @@ steps:
     out: [output]
 
   prepare_files:
-    run: ./subworkflows/utils/PreparationWorkflow.cwl
+    run: ./subworkflows/utils/stage_inputs_wf.cwl
     in:
       bioclient_config: bioclient_config
       dnaseq_metrics_id: input_dnaseq_metrics_db
