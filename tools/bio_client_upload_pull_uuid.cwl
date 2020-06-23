@@ -1,11 +1,18 @@
-#!/usr/bin/env cwl-runner
-
 cwlVersion: v1.0
-
 class: CommandLineTool
+id: bio_client_upload_pull_uuid
 requirements:
   - class: DockerRequirement
     dockerPull: quay.io/ncigdc/bio-client:latest
+  - class: ResourceRequirement
+    coresMin: 1
+    coresMax: 1
+    ramMin: 1000
+    ramMax: 1000
+    tmpdirMin: 1
+    tmpdirMax: 1
+    outdirMin: 1
+    outdirMax: 1
 
 inputs:
   config_file:
