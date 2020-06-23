@@ -1,15 +1,17 @@
-#!/usr/bin/env cwl-runner
-
-class: CommandLineTool
-
 cwlVersion: v1.0
-doc: |
-    Extracts oxoq score from sqlite db 
-
+class: CommandLineTool
+id: extract_oxoq_from_sqlite
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/variant-filtration-tool:920c0615f6df7c4bbb7adc1f0e82606bd53e5277 
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:1e8972e6ec013f25d95d4802c6d02cd92c31383b
   - class: InlineJavascriptRequirement
+  - class: ResourceRequirement
+    coresMin: 1
+    ramMin: 1000
+    tmpdirMin: 1
+    outdirMin: 1
+doc: |
+    Extracts oxoq score from sqlite db 
 
 inputs:
   context:
@@ -30,7 +32,7 @@ inputs:
     type: string?
     default: "markduplicates_readgroups"
     inputBinding:
-      prefix: --input_state
+      prefix: --input-state
       position: 2
 
   db_file:
@@ -51,4 +53,4 @@ outputs:
          }
 
 stdout: "oxoq.txt"
-baseCommand: [python3, /variant-filtration-tool/ExtractOxoqFromSqlite.py]
+baseCommand: [gdc-filtration-tools, extract-oxoq-from-sqlite]

@@ -137,7 +137,7 @@ steps:
       - main_ref_dictionary
 
   extract_oxoq:
-    run: ../tools/ExtractOxoqFromSqlite.cwl
+    run: ../tools/extract_oxoq_from_sqlite.cwl
     in:
       db_file: prepare_files/dnaseq_metrics_db
       input_state: sqlite_input_state
