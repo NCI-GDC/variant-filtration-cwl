@@ -1,17 +1,21 @@
-#!/usr/bin/env cwl-runner
-
 class: CommandLineTool
-
 cwlVersion: v1.0
-doc: |
-    Creates a tar.gz archive of a list of files 
-
+id: archive_list
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/gdc-biasfilter-tool:3839a594cab6b8576e76124061cf222fb3719f20
+    dockerPull: alpine:latest
   - class: InlineJavascriptRequirement
+    expressionLib:
+      $import: ./util_lib.cwl
   - class: InitialWorkDirRequirement
-    listing: $(inputs.input_files) 
+    listing: $(inputs.input_files)
+  - class: ResourceRequirement
+    coresMin: 1
+    ramMin: 1000
+    tmpdirMin: $(sum_file_array_size(inputs.input_files))
+    outdirMin: $(sum_file_array_size(inputs.input_files))
+doc: |
+    Creates a tar.gz archive of a list of files
 
 inputs:
   input_files:
@@ -20,7 +24,7 @@ inputs:
       items: File
       inputBinding:
         valueFrom: $(self.basename)
-    doc: files you want to archive 
+    doc: files you want to archive
     inputBinding:
       position: 1
 

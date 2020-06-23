@@ -95,7 +95,7 @@ steps:
     out: [ output_file ]
 
   somaticScoreWorkflow:
-    run: ./utils/SomaticScoreFilterWorkflow.cwl
+    run: ./filter/somaticscore_filter_wf.cwl
     in:
       input_vcf: firstFormatVcf/output_file 
       drop_somatic_score: drop_somatic_score
@@ -104,7 +104,7 @@ steps:
     out: [ somaticscore_vcf ]
 
   fpfilterWorkflow:
-    run: ./utils/FpFilterWorkflow.cwl
+    run: ./filter/fpfilter_wf.cwl
     in:
       input_vcf: somaticScoreWorkflow/somaticscore_vcf
       input_bam: tumor_bam
@@ -115,7 +115,7 @@ steps:
     out: [ fpfilter_vcf, fpfilter_time ]
 
   formatVcfWorkflow:
-    run: ./utils/FormatInputVcfWorkflow.cwl
+    run: ./format/format_input_vcf_wf.cwl
     in:
       input_vcf: fpfilterWorkflow/fpfilter_vcf 
       uuid: file_prefix 
@@ -123,7 +123,7 @@ steps:
     out: [ snv_vcf, indel_vcf ]
 
   dkfzWorkflow:
-    run: ./utils/DkfzFilterWorkflow.cwl
+    run: ./filter/dkfz_filter_wf.cwl
     in:
       input_snp_vcf: formatVcfWorkflow/snv_vcf
       bam: tumor_bam
@@ -134,7 +134,7 @@ steps:
     out: [ dkfz_vcf, dkfz_qc_archive, dkfz_time_record ]
 
   dtoxogWorkflow:
-    run: ./utils/DToxoGWorkflow.cwl
+    run: ./filter/dtoxog_filter_wf.cwl
     in:
       input_snp_vcf: dkfzWorkflow/dkfz_vcf
       oxoq_score: oxoq_score
@@ -150,7 +150,7 @@ steps:
     out: [ dtoxog_archive, dtoxog_vcf ] 
 
   formatFinalWorkflow:
-    run: ./utils/MergeAndFormatFinalVcfs.cwl
+    run: ./format/merge_and_format_final_vcfs_wf.cwl
     in:
       input_snp_vcf: dtoxogWorkflow/dtoxog_vcf
       input_indel_vcf: formatVcfWorkflow/indel_vcf

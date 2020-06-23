@@ -170,7 +170,7 @@ steps:
     out: [ fpfilter_time, dkfz_time, dkfz_qc_archive, dtoxog_archive, final_vcf ]
 
   make_archive:
-    run: ../tools/ArchiveList.cwl
+    run: ../tools/archive_list.cwl
     in:
       input_files:
         - run_filter/dkfz_qc_archive
