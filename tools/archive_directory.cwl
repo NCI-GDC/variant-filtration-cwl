@@ -1,15 +1,15 @@
-#!/usr/bin/env cwl-runner
-
 class: CommandLineTool
-
 cwlVersion: v1.0
-doc: |
-    Creates a tar.gz archive of a directory
-
+id: archive_directory
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/gdc-biasfilter-tool:3839a594cab6b8576e76124061cf222fb3719f20
+    dockerPull: alpine:latest
   - class: InlineJavascriptRequirement
+  - class: ResourceRequirement
+    coresMin: 1
+    ramMin: 1000
+
+doc: Creates a tar.gz archive of a directory
 
 inputs:
   input_directory:
