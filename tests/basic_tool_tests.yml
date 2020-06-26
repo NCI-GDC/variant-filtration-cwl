@@ -1,0 +1,21 @@
+- job: ./tests/jobs/picard_update_seqdict.job.json
+  tool: ./tools/picard_update_sequence_dictionary.cwl
+  doc: Updating sequence dictionary
+  output:
+    output_file:
+      class: "File"
+      basename: test.seqdict.vcf
+
+- job: ./tests/jobs/archive_list.job.json
+  tool: ./tools/archive_list.cwl
+  doc: Archive file list 
+  output:
+    output_archive:
+      class: "File"
+      basename: test_archive.tar.gz
+
+- job: ./tests/jobs/emit_json_value.job.json
+  tool: ./tools/emit_json_value.cwl
+  doc: Extracting JSON value 
+  output:
+    output: "yes"
