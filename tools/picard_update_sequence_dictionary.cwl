@@ -1,15 +1,19 @@
-#!/usr/bin/env cwl-runner
-
 class: CommandLineTool
-label: "Picard UpdateSequenceDictionary" 
 cwlVersion: v1.0
-doc: |
-    Updates sequence dictionary in VCF 
-
+id: picard_update_sequence_dictionary
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/gdc-biasfilter-tool:3839a594cab6b8576e76124061cf222fb3719f20
+    dockerPull: quay.io/ncigdc/picard:2.20.0
   - class: InlineJavascriptRequirement
+    expressionLib:
+      $import: ./util_lib.cwl
+  - class: ResourceRequirement
+    coresMin: 1
+    ramMin: 5000
+    tmpdirMin: $(file_size_multiplier(inputs.input_vcf, 1.2))
+    outdirMin: $(file_size_multiplier(inputs.input_vcf, 1.2))
+doc: |
+    Updates sequence dictionary in VCF 
 
 inputs:
   input_vcf:
@@ -40,4 +44,4 @@ outputs:
       glob: $(inputs.output_filename)
     doc: Updated VCF file 
 
-baseCommand: [java, -Xmx4G, -jar, /opt/picard.jar, UpdateVcfSequenceDictionary]
+baseCommand: [java, -Xmx4G, -jar, /usr/local/bin/picard.jar, UpdateVcfSequenceDictionary]

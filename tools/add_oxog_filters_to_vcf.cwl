@@ -1,15 +1,17 @@
-#!/usr/bin/env cwl-runner
-
 class: CommandLineTool
-
 cwlVersion: v1.0
-doc: |
-    Annotates VCF with D-ToxoG results 
-
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/gdc-biasfilter-tool:3839a594cab6b8576e76124061cf222fb3719f20
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:1e8972e6ec013f25d95d4802c6d02cd92c31383b
   - class: InlineJavascriptRequirement
+      $import: ./util_lib.cwl
+  - class: ResourceRequirement
+    coresMin: 1
+    ramMin: 1000
+    tmpdirMin: $(file_size_multiplier(inputs.input_vcf, 1.2))
+    outdirMin: $(file_size_multiplier(inputs.input_vcf, 1.2))
+
+doc: Annotates VCF with D-ToxoG results 
 
 inputs:
   input_vcf:
@@ -36,9 +38,9 @@ outputs:
   output_file:
     type: File
     outputBinding:
-      glob: $(inputs.output_filename) 
+      glob: $(inputs.output_filename)
     doc: The tabix indexed output file
     secondaryFiles:
         - ".tbi" 
 
-baseCommand: [/opt/gdc-biasfilter-tool/AddOxoGFiltersToVcf.py]
+baseCommand: [gdc-filtration-tools, add-oxog-filters]
