@@ -1,15 +1,18 @@
-#!/usr/bin/env cwl-runner
-
-class: CommandLineTool
-label: "Picard MergeVcfs"
 cwlVersion: v1.0
-doc: |
-    Merge VCF files 
-
+class: CommandLineTool
+id: picard_merge_vcfs
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/gdc-biasfilter-tool:3839a594cab6b8576e76124061cf222fb3719f20
+    dockerPull: quay.io/ncigdc/picard:2.20.0
   - class: InlineJavascriptRequirement
+      $import: ./util_lib.cwl
+  - class: ResourceRequirement
+    coresMin: 1
+    ramMin: 5000
+    tmpdirMin: $(sum_file_array_size(inputs.input_vcf))
+    outdirMin: $(sum_file_array_size(inputs.input_vcf))
+
+doc: Merge VCF files 
 
 inputs:
   input_vcf:
@@ -25,7 +28,7 @@ inputs:
     type: File
     doc: reference sequence dictionary file
     inputBinding:
-      prefix: "SEQUENCE_DICTIONARY="
+      prefix: SEQUENCE_DICTIONARY=
       separate: false
 
   output_filename:
@@ -43,4 +46,4 @@ outputs:
     secondaryFiles:
       - ".tbi"
 
-baseCommand: [java, -Xmx4G, -jar, /opt/picard.jar, MergeVcfs]
+baseCommand: [java, -Xmx4G, -jar, /usr/local/bin/picard.jar, MergeVcfs]
