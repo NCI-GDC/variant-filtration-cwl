@@ -1,47 +1,55 @@
-#!/usr/bin/env cwl-runner
-
-class: CommandLineTool
-label: "SomaticScoreFilter"
 cwlVersion: v1.0
-doc: |
-    Filter somaticsniper VCFs to remove very low ssc and tag low ssc 
-
+class: CommandLineTool
+label: filter_somatic_score 
 requirements:
   - class: DockerRequirement
     dockerPull: quay.io/ncigdc/variant-filtration-tool:920c0615f6df7c4bbb7adc1f0e82606bd53e5277 
   - class: InlineJavascriptRequirement
+      $import: ./util_lib.cwl
+  - class: ResourceRequirement
+    coresMin: 1
+    ramMin: 1000
+    tmpdirMin: $(file_size_multiplier(inputs.input_vcf, 2))
+    outdirMin: $(file_size_multiplier(inputs.input_vcf, 2))
+
+doc: |
+    Filter somaticsniper VCFs to remove very low ssc and tag low ssc 
 
 inputs:
+
   input_vcf:
     type: File
     doc: "input vcf file"
     inputBinding:
-      prefix: --input_vcf
+      position: 3 
 
   output_vcf:
     type: string
     doc: output basename of vcf 
     inputBinding:
-      prefix: --output_vcf
+      position: 4
 
   tumor_sample_name:
     type: string?
     default: TUMOR
     doc: Tumor sample name in VCF
     inputBinding:
-      prefix: --tumor_sample_name
+      prefix: --tumor-sample-name
+      position: 0
 
   drop_somatic_score:
     type: int?
     default: 25
     inputBinding:
-      prefix: --drop_somatic_score
+      prefix: --drop-somatic-score
+      position: 1
 
   min_somatic_score:
     type: int?
     default: 40
     inputBinding:
-      prefix: --min_somatic_score
+      prefix: --min-somatic-score
+      position: 2
 
 outputs:
   output_vcf_file:
@@ -49,4 +57,4 @@ outputs:
     outputBinding:
       glob: $(inputs.output_vcf)
 
-baseCommand: [python3, /variant-filtration-tool/SomaticScoreFilter.py]
+baseCommand: [gdc-filtration-tools, filter-somatic-score]
