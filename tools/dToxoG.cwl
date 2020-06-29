@@ -1,15 +1,9 @@
-#!/usr/bin/env cwl-runner
-
-class: CommandLineTool
-
 cwlVersion: v1.0
-
-doc: |
-    Run dtoxog 
-
+class: CommandLineTool
+id: dtoxog_tool
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/broad-oxog-tool:latest 
+    dockerPull: boxog:test
   - class: ShellCommandRequirement
   - class: InlineJavascriptRequirement
   - class: EnvVarRequirement
@@ -18,6 +12,9 @@ requirements:
         envValue: "/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/bin/glnxa64:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/os/glnxa64:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/java/jre/glnxa64/jre/lib/amd64/native_threads:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/java/jre/glnxa64/jre/lib/amd64/server:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/sys/java/jre/glnxa64/jre/lib/amd64"
       - envName: XAPPLRESDIR
         envValue: "/usr/local/MATLAB/MATLAB_Compiler_Runtime/v717/X11/app-defaults"
+
+doc: |
+    Run dtoxog 
 
 inputs:
   input_maf:

@@ -1,15 +1,18 @@
-#!/usr/bin/env cwl-runner
-
 class: CommandLineTool
-
 cwlVersion: v1.0
-doc: |
-    A Docker container for the PCAWG OXOG metrics tool.
+id: broad_oxog_metrics
 
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/broad-oxog-tool 
+    dockerPull: boxog:test
   - class: InlineJavascriptRequirement
+    expressionLib:
+      $import: ./util_lib.cwl
+  - class: ResourceRequirement
+    coresMin: 1
+    ramMin: 5000
+    tmpdirMin: 100
+    outdirMin: 100
   - class: InitialWorkDirRequirement
     listing:
       - $(inputs.input_bam)
@@ -17,6 +20,8 @@ requirements:
       - $(inputs.reference_sequence)
       - $(inputs.reference_sequence_index)
       - $(inputs.reference_sequence_dictionary)
+
+doc: The PCAWG OXOG metrics tool.
 
 inputs:
   input_bam:
