@@ -1,15 +1,14 @@
-#!/usr/bin/env cwl-runner
-
 class: CommandLineTool
-
 cwlVersion: v1.0
-doc: |
-    A Docker container for the CreateOxogIntervalsFromVcf.py tool
-
+id: create_oxog_intervals
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/gdc-biasfilter-tool:3839a594cab6b8576e76124061cf222fb3719f20
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:1e8972e6ec013f25d95d4802c6d02cd92c31383b 
   - class: InlineJavascriptRequirement
+
+doc: |
+  Takes a SNP-only VCF file and creates an interval list for
+  use by the Broad oxog metrics tool.
 
 inputs:
   input_vcf:
@@ -31,4 +30,4 @@ outputs:
       glob: $(inputs.output_filename)
     doc: The interval list file
 
-baseCommand: [/opt/gdc-biasfilter-tool/CreateOxogIntervalsFromVcf.py]
+baseCommand: [ gdc-filtration-tools, create-oxog-intervals ]
