@@ -5,7 +5,6 @@ requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
   - class: MultipleInputFeatureRequirement
-  - $import: ../../../tools/schemas.cwl
 
 inputs:
   input_snp_vcf: File
@@ -30,7 +29,7 @@ outputs:
 
 steps:
   intervals: 
-    run: ../../../tools/CreateOxoGIntervals.cwl
+    run: ../../../tools/create_oxog_intervals.cwl
     in:
       input_vcf: input_snp_vcf
       output_filename:
@@ -39,7 +38,7 @@ steps:
     out: [ output_interval_file ] 
 
   get_oxog:
-    run: ../../../tools/BroadOxoG.cwl
+    run: ../../../tools/broad_oxog_metrics.cwl
     in:
       input_bam: bam
       input_bam_index: bam_index
@@ -53,7 +52,7 @@ steps:
     out: [ output_metrics_file ]
 
   make_dtoxog_input:
-    run: ../../../tools/MakeMafForDToxoG.cwl
+    run: ../../../tools/create_dtoxog_maf.cwl
     in:
       reference_sequence: full_reference_sequence 
       reference_sequence_index: full_reference_sequence_index 
@@ -73,13 +72,13 @@ steps:
     out: [ output_dir, log_file ]
 
   archive_dtoxog:
-    run: ../../../tools/ArchiveDirectory.cwl
+    run: ../../../tools/archive_directory.cwl
     in:
       input_directory: dtoxog/output_dir
     out: [ output_archive ]
 
   process_dtoxog:
-    run: ../../../tools/ProcessDToxoG.cwl
+    run: ../../../tools/dtoxog_maf_to_vcf.cwl
     in:
       input_maf:
         source: [ dtoxog/output_dir, uuid ]
@@ -97,7 +96,7 @@ steps:
     out: [ output_file ]
 
   add_dtoxog_to_vcf:
-    run: ../../../tools/AddOxoGFiltersToVcf.cwl
+    run: ../../../tools/add_oxog_filters_to_vcf.cwl
     in:
       input_vcf: input_snp_vcf
       input_dtoxog: process_dtoxog/output_file

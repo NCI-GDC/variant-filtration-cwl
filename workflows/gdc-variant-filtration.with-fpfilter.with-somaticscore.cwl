@@ -177,7 +177,7 @@ steps:
       oxoq_score: extract_oxoq/oxoq_score
       drop_somatic_score: drop_somatic_score
       min_somatic_score: min_somatic_score
-    out: [ fpfilter_time, dkfz_time, dkfz_qc_archive, dtoxog_archive, final_vcf ]
+    out: [ dkfz_qc_archive, dtoxog_archive, final_vcf ]
 
   make_archive:
     run: ../tools/archive_list.cwl

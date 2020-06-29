@@ -167,7 +167,7 @@ steps:
       main_ref_dictionary: prepare_files/main_ref_dictionary
       vcf_metadata: make_vcf_record/output
       oxoq_score: extract_oxoq/oxoq_score
-    out: [ fpfilter_time, dkfz_time, dkfz_qc_archive, dtoxog_archive, final_vcf ]
+    out: [ dkfz_qc_archive, dtoxog_archive, final_vcf ]
 
   make_archive:
     run: ../tools/archive_list.cwl

@@ -47,10 +47,6 @@ inputs:
     type: float
  
 outputs:
-  dkfz_time:
-    type: "../../tools/schemas.cwl#time_record"
-    outputSource: dkfzWorkflow/dkfz_time_record
-
   dkfz_qc_archive:
     type: File
     outputSource: dkfzWorkflow/dkfz_qc_archive
@@ -65,7 +61,7 @@ outputs:
 
 steps:
   firstUpdate:
-    run: ../../tools/PicardUpdateSequenceDictionary.cwl
+    run: ../../tools/picard_update_sequence_dictionary.cwl
     in:
       input_vcf: input_vcf
       sequence_dictionary: full_ref_dictionary
@@ -91,7 +87,7 @@ steps:
       reference_sequence: full_ref_fasta
       reference_sequence_index: full_ref_fasta_index
       uuid: file_prefix 
-    out: [ dkfz_vcf, dkfz_qc_archive, dkfz_time_record ]
+    out: [ dkfz_vcf, dkfz_qc_archive ]
 
   dtoxogWorkflow:
     run: ./filter/dtoxog_filter_wf.cwl

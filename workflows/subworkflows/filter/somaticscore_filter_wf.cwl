@@ -4,7 +4,6 @@ id: somatic_score_filtering_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
-  - $import: ../../../tools/schemas.cwl
 
 inputs:
   input_vcf: File
@@ -22,7 +21,7 @@ outputs:
 
 steps:
   somaticscore_filter:
-    run: ../../../tools/SomaticScoreFilter.cwl
+    run: ../../../tools/filter_somatic_score.cwl
     in:
       input_vcf: input_vcf 
       output_vcf:
@@ -31,4 +30,4 @@ steps:
       tumor_sample_name: sample 
       drop_somatic_score: drop_somatic_score
       min_somatic_score: min_somatic_score
-    out: [ output_vcf_file ] 
+    out: [ output_vcf_file ]

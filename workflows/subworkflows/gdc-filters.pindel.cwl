@@ -44,7 +44,7 @@ outputs:
 
 steps:
   firstUpdate:
-    run: ../../tools/PicardUpdateSequenceDictionary.cwl
+    run: ../../tools/picard_update_sequence_dictionary.cwl
     in:
       input_vcf: input_vcf
       sequence_dictionary: full_ref_dictionary
@@ -54,7 +54,7 @@ steps:
     out: [ output_file ]
 
   format_pindel:
-    run: ../../tools/FormatPindelVcf.cwl
+    run: ../../tools/format_pindel_vcf.cwl
     in:
       input_vcf: input_vcf
       output_filename:
@@ -63,7 +63,7 @@ steps:
     out: [ output_file ]
 
   allele_check:
-    run: ../../tools/RemoveNonStandardVariants.cwl
+    run: ../../tools/filter_nonstandard_variants.cwl
     in:
       input_vcf: format_pindel/output_file 
       output_filename:
@@ -72,7 +72,7 @@ steps:
     out: [ output_file ]
 
   update_dictionary:
-    run: ../../tools/PicardUpdateSequenceDictionary.cwl
+    run: ../../tools/picard_update_sequence_dictionary.cwl
     in:
       input_vcf: allele_check/output_file 
       sequence_dictionary: main_ref_dictionary
@@ -82,7 +82,7 @@ steps:
     out: [ output_file ]
 
   contig_filter:
-    run: ../../tools/ContigFilter.cwl
+    run: ../../tools/contig_filter.cwl
     in:
       input_vcf: update_dictionary/output_file
       output_vcf:
@@ -91,7 +91,7 @@ steps:
     out: [ output_vcf_file ]
 
   format_header:
-    run: ../../tools/FormatVcfHeader.cwl
+    run: ../../tools/format_vcf_header.cwl
     in:
       input_vcf: contig_filter/output_vcf_file
       output_vcf:
@@ -127,7 +127,7 @@ steps:
     out: [ output_vcf_file ]
 
   vcf_convert:
-    run: ../../tools/PicardVcfFormatConverter.cwl
+    run: ../../tools/picard_vcf_format_converter.cwl
     in:
       input_vcf: format_header/output_vcf_file
       output_filename:

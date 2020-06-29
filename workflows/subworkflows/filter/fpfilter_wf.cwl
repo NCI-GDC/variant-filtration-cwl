@@ -4,7 +4,6 @@ id: fpfilter_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
-  - $import: ../../../tools/schemas.cwl
 
 inputs:
   input_vcf: File
@@ -22,13 +21,9 @@ outputs:
     type: File
     outputSource: fpfilter/vcf_out
 
-  fpfilter_time:
-    type: "../../../tools/schemas.cwl#time_record"
-    outputSource: fpfilter/time_record
-
 steps:
   format:
-    run: ../../../tools/PicardVcfFormatConverter.cwl
+    run: ../../../tools/picard_vcf_format_converter.cwl
     in:
       input_vcf: input_vcf 
       output_filename:
@@ -48,4 +43,4 @@ steps:
         source: uuid
         valueFrom: $(self + '.fpfilter.vcf')
       sample: sample 
-    out: [ vcf_out, time_record ]
+    out: [ vcf_out ]
