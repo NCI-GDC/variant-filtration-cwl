@@ -1,15 +1,19 @@
-#!/usr/bin/env cwl-runner
-
-class: CommandLineTool
-label: "Picard VcfFormatConverter"
 cwlVersion: v1.0
-doc: |
-    Converts a VCF.
-
+class: CommandLineTool
+id: picard_vcf_format_converter 
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/gdc-biasfilter-tool:3839a594cab6b8576e76124061cf222fb3719f20
+    dockerPull: quay.io/ncigdc/picard:2.20.0
   - class: InlineJavascriptRequirement
+    expressionLib:
+      $import: ./util_lib.cwl
+  - class: ResourceRequirement
+    coresMin: 1
+    ramMin: 5000
+    tmpdirMin: $(file_size_multiplier(inputs.input_vcf, 1.2))
+    outdirMin: $(file_size_multiplier(inputs.input_vcf, 1.2))
+
+doc: Converts a VCF using picard.
 
 inputs:
   input_vcf:
