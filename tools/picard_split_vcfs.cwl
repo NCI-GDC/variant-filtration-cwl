@@ -1,15 +1,20 @@
-#!/usr/bin/env cwl-runner
-
-class: CommandLineTool
-label: "Picard SplitVcfs"
 cwlVersion: v1.0
-doc: |
-    Split a VCF file into InDels and SNVs
-
+class: CommandLineTool
+id: picard_split_vcfs 
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/gdc-biasfilter-tool:3839a594cab6b8576e76124061cf222fb3719f20
+    dockerPull: quay.io/ncigdc/picard:2.20.0
   - class: InlineJavascriptRequirement
+    expressionLib:
+      $import: ./util_lib.cwl
+  - class: ResourceRequirement
+    coresMin: 1
+    ramMin: 5000
+    tmpdirMin: $(file_size_multiplier(inputs.input_vcf, 1.2))
+    outdirMin: $(file_size_multiplier(inputs.input_vcf, 1.2))
+
+doc: |
+    Split a VCF file into InDels and SNVs
 
 inputs:
   input_vcf:
@@ -61,4 +66,4 @@ outputs:
     secondaryFiles:
       - ".idx"
 
-baseCommand: [java, -Xmx4G, -jar, /opt/picard.jar, SplitVcfs]
+baseCommand: [java, -Xmx4G, -jar, /usr/local/bin/picard.jar, SplitVcfs]
