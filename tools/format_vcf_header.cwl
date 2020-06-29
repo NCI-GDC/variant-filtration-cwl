@@ -1,74 +1,77 @@
-#!/usr/bin/env cwl-runner
-
-class: CommandLineTool
-label: "FormatVcfHeader"
 cwlVersion: v1.0
-doc: |
-    Format VCF header for GDC 
-
+class: CommandLineTool
+id: format_vcf_header 
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/variant-filtration-tool:920c0615f6df7c4bbb7adc1f0e82606bd53e5277 
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:1e8972e6ec013f25d95d4802c6d02cd92c31383b
   - class: InlineJavascriptRequirement
+      $import: ./util_lib.cwl
+  - class: ResourceRequirement
+    coresMin: 1
+    ramMin: 1000
+    tmpdirMin: $(file_size_multiplier(inputs.input_vcf, 1.2))
+    outdirMin: $(file_size_multiplier(inputs.input_vcf, 1.2))
+
+doc: Format VCF header for GDC 
 
 inputs:
   input_vcf:
     type: File
-    doc: "input vcf file"
     inputBinding:
-      prefix: --input_vcf
+      position: 1 
 
   output_vcf:
     type: string
     doc: output basename of vcf 
     inputBinding:
-      prefix: --output_vcf
+      position: 2 
+
+  patient_barcode:
+    type: string
+    inputBinding:
+      position: 3
+
+  case_id:
+    type: string
+    inputBinding:
+      position: 4
+
+  tumor_barcode:
+    type: string
+    inputBinding:
+      position: 5
+
+  tumor_aliquot_uuid:
+    type: string
+    inputBinding:
+      position: 6
+
+  tumor_bam_uuid:
+    type: string
+    inputBinding:
+      position: 7
+
+  normal_barcode:
+    type: string
+    inputBinding:
+      position: 8
+
+  normal_aliquot_uuid:
+    type: string
+    inputBinding:
+      position: 9
+
+  normal_bam_uuid:
+    type: string
+    inputBinding:
+      position: 10
 
   reference_name:
     type: string?
     default: GRCh38.d1.vd1.fa
     inputBinding:
-      prefix: --reference_name
-
-  patient_barcode:
-    type: string
-    inputBinding:
-      prefix: --patient_barcode
-
-  case_id:
-    type: string
-    inputBinding:
-      prefix: --case_id
-
-  tumor_barcode:
-    type: string
-    inputBinding:
-      prefix: --tumor_barcode
-
-  tumor_aliquot_uuid:
-    type: string
-    inputBinding:
-      prefix: --tumor_aliquot_uuid
-
-  tumor_bam_uuid:
-    type: string
-    inputBinding:
-      prefix: --tumor_bam_uuid
-
-  normal_barcode:
-    type: string
-    inputBinding:
-      prefix: --normal_barcode
-
-  normal_aliquot_uuid:
-    type: string
-    inputBinding:
-      prefix: --normal_aliquot_uuid
-
-  normal_bam_uuid:
-    type: string
-    inputBinding:
-      prefix: --normal_bam_uuid
+      prefix: -r
+      position: 0
 
 outputs:
   output_vcf_file:
@@ -76,4 +79,4 @@ outputs:
     outputBinding:
       glob: $(inputs.output_vcf)
 
-baseCommand: [python3, /variant-filtration-tool/FormatVcfHeaderForGDC.py]
+baseCommand: [gdc-filtration-tools, format-gdc-vcf]
