@@ -1,12 +1,9 @@
-#!/usr/bin/env cwl-runner
-
 class: CommandLineTool
-label: "DKFZ Bias Filter"
 cwlVersion: v1.0
-
+id: dkfz_bias_filter
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/dkfz-biasfilter:latest
+    dockerPull: quay.io/ncigdc/dkfz-biasfilter:v1.2.2
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:
@@ -15,7 +12,6 @@ requirements:
       - $(inputs.input_bam_index)
       - $(inputs.reference_sequence)
       - $(inputs.reference_sequence_index)
-  - $import: schemas.cwl
 
 inputs:
   write_qc:
@@ -90,31 +86,8 @@ outputs:
       glob: $(inputs.uuid + '.dkfz_qcSummary')
     doc: "The qc folder"
 
-  time_record:
-    type: "schemas.cwl#time_record"
-    outputBinding:
-      loadContents: true
-      glob: $(inputs.uuid + '.dkfz.time.json')
-      outputEval: |
-        ${
-           var data = JSON.parse(self[0].contents);
-           return data;
-         }
-
-baseCommand: [/usr/bin/time]
+baseCommand: [python, /usr/local/bin/biasFilter.py, --tempFolder=/var/spool/cwl/]
 
 arguments:
-  - valueFrom: "{\"real_time\": \"%E\", \"user_time\": %U, \"system_time\": %S, \"wall_clock\": %e, \"maximum_resident_set_size\": %M, \"percent_of_cpu\": \"%P\"}"
-    position: -10
-    prefix: -f
-  - valueFrom: $(inputs.uuid + '.dkfz.time.json')
-    prefix: -o
-    position: -9
-  - valueFrom: python
-    position: -8
-  - valueFrom: /usr/local/bin/biasFilter.py
-    position: -7
-  - valueFrom: --tempFolder=/var/spool/cwl/
-    position: -6
   - valueFrom: $('/var/spool/cwl/' + inputs.uuid + '.dkfz.vcf')
     position: 6
