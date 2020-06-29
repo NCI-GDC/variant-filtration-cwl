@@ -1,28 +1,25 @@
-#!/usr/bin/env cwl-runner
-
-class: CommandLineTool
-label: Formats pindel vcf 
 cwlVersion: v1.0
-doc: |
-    Formats Pindel VCFs 
-
+class: CommandLineTool
+id: format_pindel_vcf
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/variant-filtration-tool:920c0615f6df7c4bbb7adc1f0e82606bd53e5277 
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:1e8972e6ec013f25d95d4802c6d02cd92c31383b
   - class: InlineJavascriptRequirement
+
+doc: Formats GDC WXS Pindel VCFs 
 
 inputs:
   input_vcf:
     type: File
     doc: input vcf file
     inputBinding:
-      prefix: --input_vcf
+      position: 0 
 
   output_filename:
     type: string
     doc: output basename of output file
     inputBinding:
-        prefix: --output_vcf
+        position: 1 
 
 outputs:
   output_file:
@@ -33,4 +30,4 @@ outputs:
       - ".tbi"
     doc: Formatted VCF file
 
-baseCommand: [python3, /variant-filtration-tool/PindelVcfFormatter.py] 
+baseCommand: [gdc-filtration-tools, format-pindel-vcf]
