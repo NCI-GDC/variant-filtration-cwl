@@ -1,14 +1,12 @@
-#!/usr/bin/env cwl-runner
-
 class: CommandLineTool
-label: "ContigFilter"
 cwlVersion: v1.0
+id: gdc_filtration_tools_filter_contigs 
 doc: |
     Reduce VCF to contigs present in header
 
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/variant-filtration-tool:920c0615f6df7c4bbb7adc1f0e82606bd53e5277 
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:1e8972e6ec013f25d95d4802c6d02cd92c31383b 
   - class: InlineJavascriptRequirement
 
 inputs:
@@ -16,13 +14,13 @@ inputs:
     type: File
     doc: "input vcf file"
     inputBinding:
-      prefix: --input_vcf
+      position: 0 
 
   output_vcf:
     type: string
     doc: output basename of vcf 
     inputBinding:
-      prefix: --output_vcf
+      position: 1
 
 outputs:
   output_vcf_file:
@@ -30,4 +28,4 @@ outputs:
     outputBinding:
       glob: $(inputs.output_vcf)
 
-baseCommand: [python3, /variant-filtration-tool/FilterContigs.py] 
+baseCommand: [ gdc-filtration-tools, filter-contigs ] 
