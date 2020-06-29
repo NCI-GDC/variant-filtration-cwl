@@ -1,19 +1,23 @@
-#!/usr/bin/env cwl-runner
-
-class: CommandLineTool
-
 cwlVersion: v1.0
-doc: |
-    Extracts results from DToxoG MAF into a minimal tabix indexed VCF 
-
+class: CommandLineTool
+id: dtoxog_maf_to_vcf
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/gdc-biasfilter-tool:3839a594cab6b8576e76124061cf222fb3719f20
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:1e8972e6ec013f25d95d4802c6d02cd92c31383b
   - class: InlineJavascriptRequirement
+      $import: ./util_lib.cwl
   - class: InitialWorkDirRequirement
     listing:
       - $(inputs.reference_fasta)
       - $(inputs.reference_index)
+  - class: ResourceRequirement
+    coresMin: 1
+    ramMin: 1000
+    tmpdirMin: $(file_size_multiplier(inputs.input_maf, 3))
+    outdirMin: $(file_size_multiplier(inputs.input_maf, 3))
+
+doc: |
+    Extracts results from DToxoG MAF into a minimal tabix indexed VCF 
 
 inputs:
   input_maf:
@@ -48,4 +52,4 @@ outputs:
     secondaryFiles:
         - ".tbi" 
 
-baseCommand: [/opt/gdc-biasfilter-tool/ProcessDToxoG.py]
+baseCommand: [gdc-filtration-tools, dtoxog-maf-to-vcf]
