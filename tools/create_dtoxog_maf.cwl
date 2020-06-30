@@ -3,7 +3,7 @@ class: CommandLineTool
 id: create_dtoxog_maf 
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/gdc-biasfilter-tool:1e8972e6ec013f25d95d4802c6d02cd92c31383b
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:1e8972e6ec013f25d95d4802c6d02cd92c31383b
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:
