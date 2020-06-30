@@ -3,7 +3,7 @@ cwlVersion: v1.0
 id: create_oxog_intervals
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/variant-filtration-tool:1e8972e6ec013f25d95d4802c6d02cd92c31383b 
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:6e5e350c1b9867b2271e209ece163f1c7b0eb4d1
   - class: InlineJavascriptRequirement
 
 doc: |
