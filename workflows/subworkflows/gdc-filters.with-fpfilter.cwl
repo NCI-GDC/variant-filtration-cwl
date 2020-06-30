@@ -71,7 +71,7 @@ steps:
     out: [ output_file ]
 
   fpfilterWorkflow:
-    run: ./filter/dtoxog_filter_wf.cwl
+    run: ./filter/fpfilter_wf.cwl
     in:
       input_vcf: firstUpdate/output_file 
       input_bam: tumor_bam
