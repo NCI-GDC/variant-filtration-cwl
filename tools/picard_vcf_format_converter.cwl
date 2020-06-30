@@ -52,4 +52,4 @@ outputs:
        }
     doc: Formatted VCF file 
 
-baseCommand: [java, -Xmx4G, -jar, /opt/picard.jar, VcfFormatConverter, REQUIRE_INDEX=false]
+baseCommand: [java, -Xmx4G, -jar, /usr/local/bin/picard.jar, VcfFormatConverter, REQUIRE_INDEX=false]
