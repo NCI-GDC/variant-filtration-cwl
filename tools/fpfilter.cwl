@@ -5,6 +5,7 @@ requirements:
   - class: DockerRequirement
     dockerPull: quay.io/ncigdc/fpfilter:db37554e55c284b9bf431a67de25f1be7c93bedf
   - class: InlineJavascriptRequirement
+    expressionLib:
       $import: ./util_lib.cwl
   - class: ResourceRequirement
     coresMin: 1

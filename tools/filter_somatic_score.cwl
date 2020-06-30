@@ -5,6 +5,7 @@ requirements:
   - class: DockerRequirement
     dockerPull: quay.io/ncigdc/variant-filtration-tool:920c0615f6df7c4bbb7adc1f0e82606bd53e5277 
   - class: InlineJavascriptRequirement
+    expressionLib:
       $import: ./util_lib.cwl
   - class: ResourceRequirement
     coresMin: 1

@@ -5,6 +5,7 @@ requirements:
   - class: DockerRequirement
     dockerPull: quay.io/ncigdc/picard:2.20.0
   - class: InlineJavascriptRequirement
+    expressionLib:
       $import: ./util_lib.cwl
   - class: ResourceRequirement
     coresMin: 1
