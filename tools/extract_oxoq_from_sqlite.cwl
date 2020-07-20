@@ -3,7 +3,7 @@ class: CommandLineTool
 id: extract_oxoq_from_sqlite
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/variant-filtration-tool:6e5e350c1b9867b2271e209ece163f1c7b0eb4d1
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:1.0.2
   - class: InlineJavascriptRequirement
   - class: ResourceRequirement
     coresMin: 1
@@ -53,4 +53,4 @@ outputs:
          }
 
 stdout: "oxoq.txt"
-baseCommand: [gdc-filtration-tools, extract-oxoq-from-sqlite]
+baseCommand: [extract-oxoq-from-sqlite]

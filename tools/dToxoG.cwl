@@ -3,7 +3,7 @@ class: CommandLineTool
 id: dtoxog_tool
 requirements:
   - class: DockerRequirement
-    dockerPull: boxog:test
+    dockerPull: quay.io/ncigdc/broad-oxog-tool:393936508505ce75838dca6c8952a5c0ae6d9eda 
   - class: ShellCommandRequirement
   - class: InlineJavascriptRequirement
   - class: EnvVarRequirement

@@ -3,7 +3,7 @@ class: CommandLineTool
 id: dtoxog_maf_to_vcf
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/variant-filtration-tool:6e5e350c1b9867b2271e209ece163f1c7b0eb4d1
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:1.0.2
   - class: InlineJavascriptRequirement
     expressionLib:
       $import: ./util_lib.cwl
@@ -53,4 +53,4 @@ outputs:
     secondaryFiles:
         - ".tbi" 
 
-baseCommand: [gdc-filtration-tools, dtoxog-maf-to-vcf]
+baseCommand: [dtoxog-maf-to-vcf]

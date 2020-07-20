@@ -6,7 +6,7 @@ doc: |
 
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/variant-filtration-tool:6e5e350c1b9867b2271e209ece163f1c7b0eb4d1
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:1.0.2 
   - class: InlineJavascriptRequirement
 
 inputs:
@@ -28,4 +28,4 @@ outputs:
     outputBinding:
       glob: $(inputs.output_vcf)
 
-baseCommand: [ gdc-filtration-tools, filter-contigs ] 
+baseCommand: [filter-contigs]
