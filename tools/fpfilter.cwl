@@ -3,7 +3,7 @@ class: CommandLineTool
 id: fpfilter
 requirements:
   - class: DockerRequirement
-    dockerPull: fpfilter-tool:test
+    dockerPull: quay.io/ncigdc/fpfilter:1.0-4f094a3
   - class: InlineJavascriptRequirement
     expressionLib:
       $import: ./util_lib.cwl
