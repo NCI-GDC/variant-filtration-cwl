@@ -1,9 +1,6 @@
-#!/usr/bin/env cwl-runner
-
 cwlVersion: v1.0
-
 class: Workflow
-
+id: gpas_variant_filtration_pindel_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
@@ -99,7 +96,7 @@ steps:
     out: [output]
 
   prepare_files:
-    run: ./subworkflows/utils/PreparationPindelWorkflow.cwl
+    run: ./subworkflows/utils/stage_inputs_pindel_wf.cwl
     in:
       bioclient_config: bioclient_config
       vcf_id: input_vcf_id

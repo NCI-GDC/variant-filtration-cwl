@@ -1,20 +1,5 @@
 class: SchemaDefRequirement
 types:
-  - name: time_record
-    type: record
-    fields:
-      - name: real_time
-        type: string
-      - name: user_time
-        type: float
-      - name: system_time
-        type: float
-      - name: wall_clock
-        type: float
-      - name: maximum_resident_set_size
-        type: int
-      - name: percent_of_cpu
-        type: string
   - name: vcf_metadata_record
     type: record
     fields:

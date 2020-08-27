@@ -1,12 +1,9 @@
-#!/usr/bin/env cwl-runner
-
 cwlVersion: v1.0
-
+class: ExpressionTool
+id: make_vcf_record
 requirements:
   - class: InlineJavascriptRequirement
   - $import: schemas.cwl
-
-class: ExpressionTool
 
 inputs:
   reference_name:

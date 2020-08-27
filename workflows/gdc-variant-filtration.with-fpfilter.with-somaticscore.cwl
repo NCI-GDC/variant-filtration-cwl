@@ -1,9 +1,6 @@
-#!/usr/bin/env cwl-runner
-
 cwlVersion: v1.0
-
 class: Workflow
-
+id: gpas_variant_filtration_fpfilter_somaticscore_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
@@ -122,7 +119,7 @@ steps:
     out: [output]
 
   prepare_files:
-    run: ./subworkflows/utils/PreparationWorkflow.cwl
+    run: ./subworkflows/utils/stage_inputs_wf.cwl
     in:
       bioclient_config: bioclient_config
       dnaseq_metrics_id: input_dnaseq_metrics_db
@@ -148,7 +145,7 @@ steps:
       - main_ref_dictionary
 
   extract_oxoq:
-    run: ../tools/ExtractOxoqFromSqlite.cwl
+    run: ../tools/extract_oxoq_from_sqlite.cwl
     in:
       db_file: prepare_files/dnaseq_metrics_db
       input_state: sqlite_input_state
@@ -180,10 +177,10 @@ steps:
       oxoq_score: extract_oxoq/oxoq_score
       drop_somatic_score: drop_somatic_score
       min_somatic_score: min_somatic_score
-    out: [ fpfilter_time, dkfz_time, dkfz_qc_archive, dtoxog_archive, final_vcf ]
+    out: [ dkfz_qc_archive, dtoxog_archive, final_vcf ]
 
   make_archive:
-    run: ../tools/ArchiveList.cwl
+    run: ../tools/archive_list.cwl
     in:
       input_files:
         - run_filter/dkfz_qc_archive

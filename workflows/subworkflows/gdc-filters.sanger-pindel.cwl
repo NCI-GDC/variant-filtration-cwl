@@ -1,6 +1,6 @@
 cwlVersion: v1.0
 class: Workflow
-id: gdc_filters_pindel_wf
+id: gdc_filters_sanger_pindel_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
@@ -53,19 +53,19 @@ steps:
         valueFrom: "$(self + '.first.dict.vcf')"
     out: [ output_file ]
 
-  format_pindel:
-    run: ../../tools/format_pindel_vcf.cwl
+  format_sanger_pindel:
+    run: ../../tools/format_sanger_pindel_vcf.cwl
     in:
       input_vcf: input_vcf
       output_filename:
         source: file_prefix 
-        valueFrom: "$(self + '.pindel_format.vcf.gz')"
+        valueFrom: "$(self + '.sanger_pindel_format.vcf.gz')"
     out: [ output_file ]
 
   allele_check:
     run: ../../tools/filter_nonstandard_variants.cwl
     in:
-      input_vcf: format_pindel/output_file 
+      input_vcf: format_sanger_pindel/output_file 
       output_filename:
         source: file_prefix 
         valueFrom: "$(self + '.dropnonstandard.vcf.gz')"

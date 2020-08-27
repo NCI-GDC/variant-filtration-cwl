@@ -1,0 +1,7 @@
+{
+  "input_files": [
+    {"class": "File", "location": "../data/GRCh38.d1.vd1.main.dict"},
+    {"class": "File", "location": "../data/no_dict_vcf.vcf"}
+  ],
+  "output_archive_name": "test_archive.tar.gz"
+}

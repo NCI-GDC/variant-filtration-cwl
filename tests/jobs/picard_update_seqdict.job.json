@@ -1,0 +1,5 @@
+{
+  "input_vcf": {"class": "File", "location": "../data/no_dict_vcf.vcf"},
+  "sequence_dictionary": {"class": "File", "location": "../data/GRCh38.d1.vd1.main.dict"},
+  "output_filename": "test.seqdict.vcf"
+}

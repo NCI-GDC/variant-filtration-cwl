@@ -1,20 +1,23 @@
-#!/usr/bin/env cwl-runner
-
-class: CommandLineTool
-label: "fpfilter"
 cwlVersion: v1.0
-
+class: CommandLineTool
+id: fpfilter
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/fpfilter:latest
+    dockerPull: quay.io/ncigdc/fpfilter:1.0-4f094a3
   - class: InlineJavascriptRequirement
+    expressionLib:
+      $import: ./util_lib.cwl
+  - class: ResourceRequirement
+    coresMin: 1
+    ramMin: 1000
+    tmpdirMin: $(file_size_multiplier(inputs.vcf_file, 2))
+    outdirMin: $(file_size_multiplier(inputs.vcf_file, 2))
   - class: InitialWorkDirRequirement
     listing:
       - $(inputs.input_bam)
       - $(inputs.input_bam_index)
       - $(inputs.reference_sequence)
       - $(inputs.reference_sequence_index)
-  - $import: schemas.cwl
 
 inputs:
   vcf_file:
@@ -129,27 +132,4 @@ outputs:
     outputBinding:
       glob: $(inputs.output_filename)
 
-  time_record:
-    type: "schemas.cwl#time_record"
-    outputBinding:
-      loadContents: true
-      glob: $(inputs.output_filename + '.fpfilter.time.json')
-      outputEval: |
-        ${
-           var data = JSON.parse(self[0].contents);
-           return data;
-         }
-
-baseCommand: [/usr/bin/time]
-
-arguments:
-  - valueFrom: "{\"real_time\": \"%E\", \"user_time\": %U, \"system_time\": %S, \"wall_clock\": %e, \"maximum_resident_set_size\": %M, \"percent_of_cpu\": \"%P\"}"
-    position: -10
-    prefix: -f
-  - valueFrom: $(inputs.output_filename + '.fpfilter.time.json')
-    prefix: -o
-    position: -9
-  - valueFrom: /usr/bin/perl
-    position: -8
-  - valueFrom: /opt/fpfilter.pl
-    position: -7
+baseCommand: [/usr/bin/perl, /opt/fpfilter.pl]

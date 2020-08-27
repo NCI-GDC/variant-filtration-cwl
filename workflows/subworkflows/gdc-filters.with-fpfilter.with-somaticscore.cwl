@@ -1,9 +1,6 @@
-#!/usr/bin/env cwl-runner
-
 cwlVersion: v1.0
-
 class: Workflow
-
+id: gdc_filters_with_fpfilter_with_somaticscore_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
@@ -57,14 +54,6 @@ inputs:
     type: float
 
 outputs:
-  fpfilter_time:
-    type: "../../tools/schemas.cwl#time_record"
-    outputSource: fpfilterWorkflow/fpfilter_time
- 
-  dkfz_time:
-    type: "../../tools/schemas.cwl#time_record"
-    outputSource: dkfzWorkflow/dkfz_time_record
-
   dkfz_qc_archive:
     type: File
     outputSource: dkfzWorkflow/dkfz_qc_archive
@@ -79,7 +68,7 @@ outputs:
 
 steps:
   firstUpdate:
-    run: ../../tools/PicardUpdateSequenceDictionary.cwl
+    run: ../../tools/picard_update_sequence_dictionary.cwl
     in:
       input_vcf: input_vcf
       sequence_dictionary: full_ref_dictionary
@@ -89,7 +78,7 @@ steps:
     out: [ output_file ]
 
   firstFormatVcf:
-    run: ../../tools/PicardVcfFormatConverter.cwl
+    run: ../../tools/picard_vcf_format_converter.cwl
     in:
       input_vcf: firstUpdate/output_file 
       output_filename:
@@ -98,7 +87,7 @@ steps:
     out: [ output_file ]
 
   somaticScoreWorkflow:
-    run: ./utils/SomaticScoreFilterWorkflow.cwl
+    run: ./filter/somaticscore_filter_wf.cwl
     in:
       input_vcf: firstFormatVcf/output_file 
       drop_somatic_score: drop_somatic_score
@@ -107,7 +96,7 @@ steps:
     out: [ somaticscore_vcf ]
 
   fpfilterWorkflow:
-    run: ./utils/FpFilterWorkflow.cwl
+    run: ./filter/fpfilter_wf.cwl
     in:
       input_vcf: somaticScoreWorkflow/somaticscore_vcf
       input_bam: tumor_bam
@@ -115,10 +104,10 @@ steps:
       uuid: file_prefix 
       reference_sequence: full_ref_fasta
       reference_sequence_index: full_ref_fasta_index
-    out: [ fpfilter_vcf, fpfilter_time ]
+    out: [ fpfilter_vcf ]
 
   formatVcfWorkflow:
-    run: ./utils/FormatInputVcfWorkflow.cwl
+    run: ./format/format_input_vcf_wf.cwl
     in:
       input_vcf: fpfilterWorkflow/fpfilter_vcf 
       uuid: file_prefix 
@@ -126,7 +115,7 @@ steps:
     out: [ snv_vcf, indel_vcf ]
 
   dkfzWorkflow:
-    run: ./utils/DkfzFilterWorkflow.cwl
+    run: ./filter/dkfz_filter_wf.cwl
     in:
       input_snp_vcf: formatVcfWorkflow/snv_vcf
       bam: tumor_bam
@@ -134,10 +123,10 @@ steps:
       reference_sequence: full_ref_fasta
       reference_sequence_index: full_ref_fasta_index
       uuid: file_prefix 
-    out: [ dkfz_vcf, dkfz_qc_archive, dkfz_time_record ]
+    out: [ dkfz_vcf, dkfz_qc_archive ]
 
   dtoxogWorkflow:
-    run: ./utils/DToxoGWorkflow.cwl
+    run: ./filter/dtoxog_filter_wf.cwl
     in:
       input_snp_vcf: dkfzWorkflow/dkfz_vcf
       oxoq_score: oxoq_score
@@ -153,7 +142,7 @@ steps:
     out: [ dtoxog_archive, dtoxog_vcf ] 
 
   formatFinalWorkflow:
-    run: ./utils/MergeAndFormatFinalVcfs.cwl
+    run: ./format/merge_and_format_final_vcfs_wf.cwl
     in:
       input_snp_vcf: dtoxogWorkflow/dtoxog_vcf
       input_indel_vcf: formatVcfWorkflow/indel_vcf
