@@ -19,3 +19,9 @@
   doc: Extracting JSON value 
   output:
     output: "yes"
+
+- job: ./tests/jobs/make_file_prefix.job.json
+  tool: ./tools/make_file_prefix.cwl
+  doc: Making file prefix
+  output:
+    output: "test.wgs.Sanger_Pindel"
