@@ -24,76 +24,72 @@ inputs:
     type: string
   input_dnaseq_metrics_db:
     type: string
-    doc: The dnaseq wf metrics sqlite db 
+    doc: The dnaseq wf metrics sqlite db
   input_vcf_id:
-    type: string 
+    type: string
     doc: The VCF file ID you want to filter
   input_vcf_index_id:
     type: string
     doc: The VCF file index ID
-  tumor_realn_bam_id:
-    type: string 
-    doc: The tumor cocleaned bam uuid
-  tumor_realn_bam_index_id:
-    type: string 
-    doc: The tumor cocleaned bai uuid
   sqlite_input_state:
     type: string
     doc: The value for input_state column to filter
   job_uuid:
     type: string
-    doc: UUID to use for the job 
+    doc: UUID to use for the job
   full_ref_fasta_id:
     doc: Full reference fasta containing all scaffolds
-    type: string 
+    type: string
   full_ref_fasta_index_id:
     doc: Full reference fasta index
-    type: string 
+    type: string
   full_ref_dictionary_id:
     doc: Full reference fasta sequence dictionary
-    type: string 
+    type: string
   main_ref_fasta_id:
     doc: Main chromosomes only fasta
-    type: string  
+    type: string
   main_ref_fasta_index_id:
     doc: Main chromosomes only fasta index
-    type: string 
+    type: string
   main_ref_dictionary_id:
     doc: Main chromosomes only fasta sequence dictionary
-    type: string 
+    type: string
   reference_name:
     type: string
     default: "GRCh38.d1.vd1.fa"
     doc: The string to use for the reference name in the VCF header
-  case_submitter_id: 
+  case_submitter_id:
     type: string
   case_id:
     type: string
   tumor_aliquot_submitter_id:
-    type: string 
+    type: string
   tumor_aliquot_id:
-    type: string 
+    type: string
   tumor_bam_uuid:
-    type: string 
+    type: string
+  tumor_bam_index_uuid:
+    type: string
   normal_aliquot_submitter_id:
-    type: string 
+    type: string
   normal_aliquot_id:
-    type: string 
+    type: string
   normal_bam_uuid:
-    type: string 
+    type: string
 
 outputs:
   filtered_vcf_id:
-    type: string 
-    outputSource: uuid_vcf/output 
+    type: string
+    outputSource: uuid_vcf/output
 
   filtered_vcf_index_id:
-    type: string 
-    outputSource: uuid_vcf_index/output 
+    type: string
+    outputSource: uuid_vcf_index/output
 
   tar_archive_id:
-    type: string 
-    outputSource: uuid_archive/output 
+    type: string
+    outputSource: uuid_archive/output
 
 steps:
   make_vcf_record:
@@ -102,10 +98,10 @@ steps:
       reference_name: reference_name
       case_submitter_id: case_submitter_id
       case_id: case_id
-      tumor_aliquot_submitter_id: tumor_aliquot_submitter_id 
+      tumor_aliquot_submitter_id: tumor_aliquot_submitter_id
       tumor_aliquot_id: tumor_aliquot_id
       tumor_bam_uuid: tumor_bam_uuid
-      normal_aliquot_submitter_id: normal_aliquot_submitter_id 
+      normal_aliquot_submitter_id: normal_aliquot_submitter_id
       normal_aliquot_id: normal_aliquot_id
       normal_bam_uuid: normal_bam_uuid
     out: [output]
@@ -115,8 +111,8 @@ steps:
     in:
       bioclient_config: bioclient_config
       dnaseq_metrics_id: input_dnaseq_metrics_db
-      tumor_coclean_bam_id: tumor_realn_bam_id
-      tumor_coclean_bam_index_id: tumor_realn_bam_index_id
+      tumor_bam_id: tumor_bam_uuid
+      tumor_bam_index_id: tumor_bam_index_uuid
       vcf_id: input_vcf_id
       full_ref_fasta_id: full_ref_fasta_id
       full_ref_fasta_index_id: full_ref_fasta_index_id
@@ -126,8 +122,8 @@ steps:
       main_ref_dictionary_id: main_ref_dictionary_id
     out:
       - dnaseq_metrics_db
-      - tumor_coclean_bam
-      - tumor_coclean_bam_index
+      - tumor_bam
+      - tumor_bam_index
       - input_vcf
       - full_ref_fasta
       - full_ref_fai
@@ -148,7 +144,7 @@ steps:
     in:
       project_id: project_id
       caller_id: caller_id
-      job_id: job_uuid 
+      job_id: job_uuid
       experimental_strategy: experimental_strategy
     out: [ output ]
 
@@ -156,8 +152,8 @@ steps:
     run: ./subworkflows/gdc-filters.with-fpfilter.cwl
     in:
       input_vcf: prepare_files/input_vcf
-      tumor_bam: prepare_files/tumor_coclean_bam
-      tumor_bam_index: prepare_files/tumor_coclean_bam_index
+      tumor_bam: prepare_files/tumor_bam
+      tumor_bam_index: prepare_files/tumor_bam_index
       file_prefix: get_filename_prefix/output
       full_ref_fasta: prepare_files/full_ref_fasta
       full_ref_fasta_index: prepare_files/full_ref_fai
@@ -176,7 +172,7 @@ steps:
         - run_filter/dkfz_qc_archive
         - run_filter/dtoxog_archive
       output_archive_name:
-        source: get_filename_prefix/output 
+        source: get_filename_prefix/output
         valueFrom: $(self + '.variant_filtration_archive.tar.gz')
     out: [ output_archive ]
 
@@ -188,7 +184,7 @@ steps:
       upload_key:
         source: [job_uuid, run_filter/final_vcf]
         valueFrom: $(self[0])/$(self[1].basename)
-      local_file: run_filter/final_vcf 
+      local_file: run_filter/final_vcf
     out: [output]
 
   upload_vcf_index:
@@ -197,10 +193,10 @@ steps:
       config_file: bioclient_config
       upload_bucket: upload_bucket
       upload_key:
-        source: [job_uuid, run_filter/final_vcf] 
+        source: [job_uuid, run_filter/final_vcf]
         valueFrom: $(self[0])/$(self[1].secondaryFiles[0].basename)
       local_file:
-        source: run_filter/final_vcf 
+        source: run_filter/final_vcf
         valueFrom: $(self.secondaryFiles[0])
     out: [output]
 
@@ -210,9 +206,9 @@ steps:
       config_file: bioclient_config
       upload_bucket: upload_bucket
       upload_key:
-        source: [job_uuid, make_archive/output_archive] 
+        source: [job_uuid, make_archive/output_archive]
         valueFrom: $(self[0])/$(self[1].basename)
-      local_file: make_archive/output_archive 
+      local_file: make_archive/output_archive
     out: [output]
 
   uuid_vcf:
