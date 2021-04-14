@@ -8,8 +8,8 @@ requirements:
 inputs:
   bioclient_config: File
   dnaseq_metrics_id: string
-  tumor_coclean_bam_id: string
-  tumor_coclean_bam_index_id: string
+  tumor_bam_id: string
+  tumor_bam_index_id: string
   vcf_id: string
   full_ref_fasta_id: string
   full_ref_fasta_index_id: string
@@ -23,11 +23,11 @@ outputs:
     type: File
     outputSource: sqlite_dl/output
 
-  tumor_coclean_bam:
+  tumor_bam:
     type: File
     outputSource: bam_dl/output
 
-  tumor_coclean_bam_index:
+  tumor_bam_index:
     type: File
     outputSource: bam_index_dl/output
 
@@ -71,14 +71,14 @@ steps:
     run: ../../../tools/bio_client_download.cwl
     in:
       config_file: bioclient_config
-      download_handle: tumor_coclean_bam_id
+      download_handle: tumor_bam_id
     out: [ output ]
 
   bam_index_dl:
     run: ../../../tools/bio_client_download.cwl
     in:
       config_file: bioclient_config
-      download_handle: tumor_coclean_bam_index_id
+      download_handle: tumor_bam_index_id
     out: [ output ]
 
   vcf_dl:
@@ -92,40 +92,40 @@ steps:
     run: ../../../tools/bio_client_download.cwl
     in:
       config_file: bioclient_config
-      download_handle: full_ref_fasta_id 
+      download_handle: full_ref_fasta_id
     out: [ output ]
 
   full_ref_fai_dl:
     run: ../../../tools/bio_client_download.cwl
     in:
       config_file: bioclient_config
-      download_handle: full_ref_fasta_index_id 
+      download_handle: full_ref_fasta_index_id
     out: [ output ]
 
   full_ref_dict_dl:
     run: ../../../tools/bio_client_download.cwl
     in:
       config_file: bioclient_config
-      download_handle: full_ref_dictionary_id 
+      download_handle: full_ref_dictionary_id
     out: [ output ]
 
   main_ref_dl:
     run: ../../../tools/bio_client_download.cwl
     in:
       config_file: bioclient_config
-      download_handle: main_ref_fasta_id 
+      download_handle: main_ref_fasta_id
     out: [ output ]
 
   main_ref_fai_dl:
     run: ../../../tools/bio_client_download.cwl
     in:
       config_file: bioclient_config
-      download_handle: main_ref_fasta_index_id 
+      download_handle: main_ref_fasta_index_id
     out: [ output ]
 
   main_ref_dict_dl:
     run: ../../../tools/bio_client_download.cwl
     in:
       config_file: bioclient_config
-      download_handle: main_ref_dictionary_id 
+      download_handle: main_ref_dictionary_id
     out: [ output ]
