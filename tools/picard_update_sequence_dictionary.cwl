@@ -3,7 +3,7 @@ cwlVersion: v1.0
 id: picard_update_sequence_dictionary
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/picard:2.20.0
+    dockerPull: quay.io/ncigdc/picard:2.26.10
   - class: InlineJavascriptRequirement
     expressionLib:
       $import: ./util_lib.cwl
@@ -13,7 +13,7 @@ requirements:
     tmpdirMin: $(file_size_multiplier(inputs.input_vcf, 1.2))
     outdirMin: $(file_size_multiplier(inputs.input_vcf, 1.2))
 doc: |
-    Updates sequence dictionary in VCF 
+    Updates sequence dictionary in VCF
 
 inputs:
   input_vcf:
@@ -25,9 +25,9 @@ inputs:
 
   sequence_dictionary:
     type: File
-    doc: sequence dictionary you want to update header with 
+    doc: sequence dictionary you want to update header with
     inputBinding:
-      prefix: SD= 
+      prefix: SD=
       separate: false
 
   output_filename:
@@ -42,6 +42,6 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.output_filename)
-    doc: Updated VCF file 
+    doc: Updated VCF file
 
 baseCommand: [java, -Xmx4G, -jar, /usr/local/bin/picard.jar, UpdateVcfSequenceDictionary]

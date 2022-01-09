@@ -1,9 +1,9 @@
 cwlVersion: v1.0
 class: CommandLineTool
-id: picard_split_vcfs 
+id: picard_split_vcfs
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/picard:2.20.0
+    dockerPull: quay.io/ncigdc/picard:2.26.10
   - class: InlineJavascriptRequirement
     expressionLib:
       $import: ./util_lib.cwl
