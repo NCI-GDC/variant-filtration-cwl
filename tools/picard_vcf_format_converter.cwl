@@ -1,9 +1,9 @@
 cwlVersion: v1.0
 class: CommandLineTool
-id: picard_vcf_format_converter 
+id: picard_vcf_format_converter
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/picard:2.20.0
+    dockerPull: quay.io/ncigdc/picard:2.26.10
   - class: InlineJavascriptRequirement
     expressionLib:
       $import: ./util_lib.cwl
@@ -42,7 +42,7 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.output_filename)
-    secondaryFiles: | 
+    secondaryFiles: |
       ${
          if(inputs.output_filename.indexOf('.gz') == -1) {
            return({"class": "File", "location": self.location + '.idx'});
@@ -50,6 +50,6 @@ outputs:
            return({"class": "File", "location": self.location + '.tbi'});
          }
        }
-    doc: Formatted VCF file 
+    doc: Formatted VCF file
 
 baseCommand: [java, -Xmx4G, -jar, /usr/local/bin/picard.jar, VcfFormatConverter, REQUIRE_INDEX=false]

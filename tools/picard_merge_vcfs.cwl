@@ -3,7 +3,7 @@ class: CommandLineTool
 id: picard_merge_vcfs
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/picard:2.20.0
+    dockerPull: quay.io/ncigdc/picard:2.26.10
   - class: InlineJavascriptRequirement
     expressionLib:
       $import: ./util_lib.cwl
@@ -13,7 +13,7 @@ requirements:
     tmpdirMin: $(sum_file_array_size(inputs.input_vcf))
     outdirMin: $(sum_file_array_size(inputs.input_vcf))
 
-doc: Merge VCF files 
+doc: Merge VCF files
 
 inputs:
   input_vcf:
@@ -34,7 +34,7 @@ inputs:
 
   output_filename:
     type: string
-    doc: output basename of merged 
+    doc: output basename of merged
     inputBinding:
       prefix: OUTPUT=
       separate: false
