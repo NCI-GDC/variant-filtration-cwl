@@ -66,4 +66,4 @@ outputs:
     secondaryFiles:
       - ".idx"
 
-baseCommand: [java, -Xmx4G, -jar, /usr/local/bin/picard.jar, SplitVcfs]
+baseCommand: [java, -Xmx4G, -jar, /usr/local/bin/picard.jar, SplitVcfs, STRICT=false]
