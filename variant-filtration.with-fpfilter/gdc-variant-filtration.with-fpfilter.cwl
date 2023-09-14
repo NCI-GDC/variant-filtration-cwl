@@ -1,6 +1,6 @@
 cwlVersion: v1.0
 class: Workflow
-id: gpas_variant_filtration_minimal_wf
+id: gpas_variant_filtration_fpfilter_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
@@ -107,7 +107,7 @@ steps:
     out: [output]
 
   prepare_files:
-    run: ./subworkflows/utils/stage_inputs_wf.cwl
+    run: ../subworkflows/utils/stage_inputs_wf.cwl
     in:
       bioclient_config: bioclient_config
       dnaseq_metrics_id: input_dnaseq_metrics_db
@@ -149,7 +149,7 @@ steps:
     out: [ output ]
 
   run_filter:
-    run: ./subworkflows/gdc-filters.minimal.cwl
+    run: ../subworkflows/gdc-filters.with-fpfilter.cwl
     in:
       input_vcf: prepare_files/input_vcf
       tumor_bam: prepare_files/tumor_bam

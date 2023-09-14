@@ -1,6 +1,6 @@
 cwlVersion: v1.0
 class: Workflow
-id: gpas_variant_filtration_pindel_wf
+id: gpas_variant_filtration_sanger_pindel_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
@@ -17,7 +17,7 @@ inputs:
     doc: GDC experimental strategy used for output filenames
   caller_id:
     type: string
-    default: "Pindel"
+    default: "Sanger Pindel"
     doc: GDC caller id used for output filenames
   bioclient_config:
     type: File
@@ -96,7 +96,7 @@ steps:
     out: [output]
 
   prepare_files:
-    run: ./subworkflows/utils/stage_inputs_pindel_wf.cwl
+    run: ../subworkflows/utils/stage_inputs_pindel_wf.cwl
     in:
       bioclient_config: bioclient_config
       vcf_id: input_vcf_id
@@ -125,7 +125,7 @@ steps:
     out: [ output ]
   
   run_filter:
-    run: ./subworkflows/gdc-filters.pindel.cwl
+    run: ../subworkflows/gdc-filters.sanger-pindel.cwl
     in:
       input_vcf: prepare_files/input_vcf
       file_prefix: get_filename_prefix/output 
@@ -146,7 +146,7 @@ steps:
       upload_key:
         source: [job_uuid, run_filter/final_vcf]
         valueFrom: $(self[0])/$(self[1].basename)
-      local_file: run_filter/final_vcf 
+      local_file: run_filter/final_vcf
     out: [output]
 
   upload_vcf_index:

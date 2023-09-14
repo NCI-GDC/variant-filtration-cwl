@@ -1,4 +1,4 @@
-ENTRY_CWL := "gdc-variant-filtration.minimal.cwl"
+ENTRY_CWL := "gdc-variant-filtration.sanger-pindel.cwl"
 
 # Pack and apply Jinja templating. Creates cwl.json file
 # Should be runnable in built docker container
