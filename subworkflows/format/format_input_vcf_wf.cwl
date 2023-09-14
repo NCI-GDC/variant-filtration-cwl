@@ -22,7 +22,7 @@ outputs:
 
 steps:
   allele_check:
-    run: ../../../tools/filter_nonstandard_variants.cwl
+    run: ../../tools/filter_nonstandard_variants.cwl
     in:
       input_vcf: input_vcf
       output_filename:
@@ -31,7 +31,7 @@ steps:
     out: [ output_file ]
 
   format:
-    run: ../../../tools/picard_vcf_format_converter.cwl
+    run: ../../tools/picard_vcf_format_converter.cwl
     in:
       input_vcf: allele_check/output_file
       output_filename:
@@ -40,7 +40,7 @@ steps:
     out: [ output_file ]
 
   split:
-    run: ../../../tools/picard_split_vcfs.cwl
+    run: ../../tools/picard_split_vcfs.cwl
     in:
       input_vcf: format/output_file
       sequence_dictionary: sequence_dictionary 

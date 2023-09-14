@@ -5,14 +5,14 @@ requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
   - class: MultipleInputFeatureRequirement
-  - $import: ../../../tools/schemas.cwl
+  - $import: ../../tools/schemas.cwl
 
 inputs:
   input_snp_vcf: File
   input_indel_vcf: File
   full_reference_sequence_dictionary: File
   main_reference_sequence_dictionary: File
-  vcf_metadata: "../../../tools/schemas.cwl#vcf_metadata_record"
+  vcf_metadata: "../../tools/schemas.cwl#vcf_metadata_record"
   uuid: string
 
 outputs:
@@ -22,7 +22,7 @@ outputs:
 
 steps:
   merge_vcfs:
-    run: ../../../tools/picard_merge_vcfs.cwl
+    run: ../../tools/picard_merge_vcfs.cwl
     in:
       input_vcf: [ input_snp_vcf, input_indel_vcf ] 
       sequence_dictionary: full_reference_sequence_dictionary
@@ -32,7 +32,7 @@ steps:
     out: [ output_vcf_file ]
 
   update_dictionary:
-    run: ../../../tools/picard_update_sequence_dictionary.cwl
+    run: ../../tools/picard_update_sequence_dictionary.cwl
     in:
       input_vcf: merge_vcfs/output_vcf_file
       sequence_dictionary: main_reference_sequence_dictionary 
@@ -42,7 +42,7 @@ steps:
     out: [ output_file ]
 
   contig_filter:
-    run: ../../../tools/contig_filter.cwl
+    run: ../../tools/contig_filter.cwl
     in:
       input_vcf: update_dictionary/output_file
       output_vcf:
@@ -51,7 +51,7 @@ steps:
     out: [ output_vcf_file ]
 
   format_header:
-    run: ../../../tools/format_vcf_header.cwl
+    run: ../../tools/format_vcf_header.cwl
     in:
       input_vcf: contig_filter/output_vcf_file
       output_vcf:
@@ -87,7 +87,7 @@ steps:
     out: [ output_vcf_file ]
 
   vcf_convert:
-    run: ../../../tools/picard_vcf_format_converter.cwl
+    run: ../../tools/picard_vcf_format_converter.cwl
     in:
       input_vcf: format_header/output_vcf_file
       output_filename:

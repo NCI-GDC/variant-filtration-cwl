@@ -25,7 +25,7 @@ outputs:
 
 steps:
   pos_filter:
-    run: ../../../tools/pos_filter_for_dkfz.cwl
+    run: ../../tools/pos_filter_for_dkfz.cwl
     in:
       input_vcf: input_snp_vcf
       output_vcf:
@@ -34,7 +34,7 @@ steps:
     out: [ output_vcf_file ]
 
   dkfz:
-    run: ../../../tools/dkfz_bias_filter.cwl
+    run: ../../tools/dkfz_bias_filter.cwl
     in:
       input_vcf: pos_filter/output_vcf_file
       input_bam: bam
@@ -45,7 +45,7 @@ steps:
     out: [ output_vcf_file, output_qc_folder ]
       
   archive_dkfz:
-    run: ../../../tools/archive_directory.cwl
+    run: ../../tools/archive_directory.cwl
     in:
       input_directory: dkfz/output_qc_folder
     out: [ output_archive ]

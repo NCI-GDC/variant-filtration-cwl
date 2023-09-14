@@ -46,49 +46,49 @@ outputs:
 
 steps:
   vcf_dl:
-    run: ../../../tools/bio_client_download.cwl
+    run: ../../tools/bio_client_download.cwl
     in:
       config_file: bioclient_config
       download_handle: vcf_id
     out: [ output ]
 
   full_ref_dl:
-    run: ../../../tools/bio_client_download.cwl
+    run: ../../tools/bio_client_download.cwl
     in:
       config_file: bioclient_config
       download_handle: full_ref_fasta_id 
     out: [ output ]
 
   full_ref_fai_dl:
-    run: ../../../tools/bio_client_download.cwl
+    run: ../../tools/bio_client_download.cwl
     in:
       config_file: bioclient_config
       download_handle: full_ref_fasta_index_id 
     out: [ output ]
 
   full_ref_dict_dl:
-    run: ../../../tools/bio_client_download.cwl
+    run: ../../tools/bio_client_download.cwl
     in:
       config_file: bioclient_config
       download_handle: full_ref_dictionary_id 
     out: [ output ]
 
   main_ref_dl:
-    run: ../../../tools/bio_client_download.cwl
+    run: ../../tools/bio_client_download.cwl
     in:
       config_file: bioclient_config
       download_handle: main_ref_fasta_id 
     out: [ output ]
 
   main_ref_fai_dl:
-    run: ../../../tools/bio_client_download.cwl
+    run: ../../tools/bio_client_download.cwl
     in:
       config_file: bioclient_config
       download_handle: main_ref_fasta_index_id 
     out: [ output ]
 
   main_ref_dict_dl:
-    run: ../../../tools/bio_client_download.cwl
+    run: ../../tools/bio_client_download.cwl
     in:
       config_file: bioclient_config
       download_handle: main_ref_dictionary_id 

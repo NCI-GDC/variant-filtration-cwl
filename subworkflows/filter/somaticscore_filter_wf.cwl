@@ -21,7 +21,7 @@ outputs:
 
 steps:
   somaticscore_filter:
-    run: ../../../tools/filter_somatic_score.cwl
+    run: ../../tools/filter_somatic_score.cwl
     in:
       input_vcf: input_vcf 
       output_vcf:

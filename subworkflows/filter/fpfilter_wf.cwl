@@ -23,7 +23,7 @@ outputs:
 
 steps:
   format:
-    run: ../../../tools/picard_vcf_format_converter.cwl
+    run: ../../tools/picard_vcf_format_converter.cwl
     in:
       input_vcf: input_vcf 
       output_filename:
@@ -32,7 +32,7 @@ steps:
     out: [ output_file ]
 
   fpfilter:
-    run: ../../../tools/fpfilter.cwl
+    run: ../../tools/fpfilter.cwl
     in:
       vcf_file: format/output_file
       input_bam: input_bam
