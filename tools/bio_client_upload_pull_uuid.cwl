@@ -49,7 +49,7 @@ inputs:
       prefix: --upload_key
       position: 3
 
-  input:
+  local_file:
     type: File
     inputBinding:
       position: 99
