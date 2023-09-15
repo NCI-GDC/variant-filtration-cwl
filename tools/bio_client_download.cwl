@@ -3,8 +3,8 @@ class: CommandLineTool
 id: bio_client_download
 requirements:
   - class: DockerRequirement
-dockerPull: "{{ docker_repository }}/bio-client:{{ bio_client }}"
-- class: InlineJavascriptRequirement
+    dockerPull: "{{ docker_repository }}/bio-client:{{ bio_client }}"
+  - class: InlineJavascriptRequirement
   - class: ResourceRequirement
     coresMin: 1
     coresMax: 1
@@ -26,7 +26,7 @@ inputs:
         class: File
         location: /etc/ssl/certs/ca-certificates.crt
 
-  config-file:
+  config_file:
     type: File
     inputBinding:
       prefix: -c
