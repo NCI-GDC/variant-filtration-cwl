@@ -25,7 +25,7 @@ inputs:
         class: File
         location: /etc/ssl/certs/ca-certificates.crt
 
-  config-file:
+  config_file:
     type: File
     inputBinding:
       prefix: --config-file
