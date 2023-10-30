@@ -6,7 +6,7 @@ requirements:
   - class: StepInputExpressionRequirement
   - class: MultipleInputFeatureRequirement
   - class: SubworkflowFeatureRequirement
-  - $import: ../../tools/schemas.cwl
+  - $import: ../tools/schemas.cwl
 
 inputs:
   input_vcf:
@@ -41,7 +41,7 @@ inputs:
     type: File
   vcf_metadata:
     doc: VCF metadata record
-    type: "../../tools/schemas.cwl#vcf_metadata_record"
+    type: "../tools/schemas.cwl#vcf_metadata_record"
   oxoq_score:
     doc: oxoq score from picard
     type: float
@@ -61,7 +61,7 @@ outputs:
 
 steps:
   firstUpdate:
-    run: ../../tools/picard_update_sequence_dictionary.cwl
+    run: ../tools/picard_update_sequence_dictionary.cwl
     in:
       input_vcf: input_vcf
       sequence_dictionary: full_ref_dictionary

@@ -6,7 +6,7 @@ requirements:
   - class: StepInputExpressionRequirement
   - class: MultipleInputFeatureRequirement
   - class: SubworkflowFeatureRequirement
-  - $import: ../../tools/schemas.cwl
+  - $import: ../tools/schemas.cwl
 
 inputs:
   input_vcf:
@@ -40,7 +40,7 @@ inputs:
     type: File
   vcf_metadata:
     doc: VCF metadata record
-    type: "../../tools/schemas.cwl#vcf_metadata_record"
+    type: "../tools/schemas.cwl#vcf_metadata_record"
   drop_somatic_score:
     doc: If the somatic score is less than this value, remove it from VCF
     type: int?
@@ -68,7 +68,7 @@ outputs:
 
 steps:
   firstUpdate:
-    run: ../../tools/picard_update_sequence_dictionary.cwl
+    run: ../tools/picard_update_sequence_dictionary.cwl
     in:
       input_vcf: input_vcf
       sequence_dictionary: full_ref_dictionary
@@ -78,7 +78,7 @@ steps:
     out: [ output_file ]
 
   firstFormatVcf:
-    run: ../../tools/picard_vcf_format_converter.cwl
+    run: ../tools/picard_vcf_format_converter.cwl
     in:
       input_vcf: firstUpdate/output_file 
       output_filename:
