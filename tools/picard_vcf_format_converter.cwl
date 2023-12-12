@@ -42,14 +42,8 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.output_filename)
-    secondaryFiles: |
-      ${
-         if(inputs.output_filename.indexOf('.gz') == -1) {
-           return({"class": "File", "location": self.location + '.idx'});
-         } else {
-           return({"class": "File", "location": self.location + '.tbi'});
-         }
-       }
-    doc: Formatted VCF file
+    secondaryFiles:
+      - ".tbi"
+
 
 baseCommand: [java, -Xmx4G, -jar, /usr/local/bin/picard.jar, VcfFormatConverter, REQUIRE_INDEX=false]
