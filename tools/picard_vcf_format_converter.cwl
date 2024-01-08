@@ -20,21 +20,21 @@ inputs:
     type: File
     doc: "input vcf file"
     inputBinding:
-      prefix: "INPUT="
+      prefix: INPUT=
       separate: false
 
   output_filename:
     type: string
     doc: output basename of output file
     inputBinding:
-      prefix: "OUTPUT="
+      prefix: OUTPUT=
       separate: false
 
   create_index:
     type: string
     default: "true"
     inputBinding:
-      prefix: "CREATE_INDEX="
+      prefix: CREATE_INDEX=
       separate: false
 
 outputs:

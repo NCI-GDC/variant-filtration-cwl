@@ -2,6 +2,7 @@ class: CommandLineTool
 cwlVersion: v1.0
 id: dkfz_bias_filter
 requirements:
+  - class: ShellCommandRequirement
   - class: DockerRequirement
     dockerPull: quay.io/ncigdc/dkfz-biasfilter:v1.2.2
   - class: InlineJavascriptRequirement
@@ -86,8 +87,16 @@ outputs:
       glob: $(inputs.uuid + '.dkfz_qcSummary')
     doc: "The qc folder"
 
-baseCommand: [python, /usr/local/bin/biasFilter.py, --tempFolder=/var/spool/cwl/]
+baseCommand: [python, /usr/local/bin/biasFilter.py]
 
 arguments:
-  - valueFrom: $('/var/spool/cwl/' + inputs.uuid + '.dkfz.vcf')
+  - valueFrom: |
+      ${
+        return '--tempFolder=' + runtime.outdir + '/';
+      }
+    position: 0
+  - valueFrom: |
+      ${
+        return runtime.outdir + '/' + inputs.uuid + '.dkfz.vcf'
+      }
     position: 6

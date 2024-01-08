@@ -1,6 +1,6 @@
 cwlVersion: v1.0
 class: Workflow
-id: gpas_variant_filtration_fpfilter_somaticscore_wf
+id: gpas_variant_filtration_minimal_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
@@ -77,14 +77,6 @@ inputs:
     type: string
   normal_bam_uuid:
     type: string
-  drop_somatic_score:
-    doc: If the somatic score is less than this value, remove it from VCF
-    type: int?
-    default: 25
-  min_somatic_score:
-    doc: If the somatic score is less than this value, add filter tag
-    type: int?
-    default: 40
 
 outputs:
   filtered_vcf_id:
@@ -157,7 +149,7 @@ steps:
     out: [ output ]
 
   run_filter:
-    run: ../subworkflows/gdc-filters.with-fpfilter.with-somaticscore.cwl
+    run: ../subworkflows/gdc-filters.minimal.cwl
     in:
       input_vcf: prepare_files/input_vcf
       tumor_bam: prepare_files/tumor_bam
@@ -171,8 +163,6 @@ steps:
       main_ref_dictionary: prepare_files/main_ref_dictionary
       vcf_metadata: make_vcf_record/output
       oxoq_score: extract_oxoq/oxoq_score
-      drop_somatic_score: drop_somatic_score
-      min_somatic_score: min_somatic_score
     out: [ dkfz_qc_archive, dtoxog_archive, final_vcf ]
 
   make_archive:
