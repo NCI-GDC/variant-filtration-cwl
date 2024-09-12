@@ -8,7 +8,7 @@
 
 - job: ./tests/jobs/archive_list.job.json
   tool: ./tools/archive_list.cwl
-  doc: Archive file list 
+  doc: Archive file list
   output:
     output_archive:
       class: "File"
@@ -16,7 +16,7 @@
 
 - job: ./tests/jobs/emit_json_value.job.json
   tool: ./tools/emit_json_value.cwl
-  doc: Extracting JSON value 
+  doc: Extracting JSON value
   output:
     output: "yes"
 
