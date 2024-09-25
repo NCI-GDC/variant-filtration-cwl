@@ -3,7 +3,7 @@ class: CommandLineTool
 id: format_pindel_vcf
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/variant-filtration-tool:1.0.2
+    dockerPull: quay.io/ncigdc/variant-filtration-tool:build-69-b3175e68
   - class: InlineJavascriptRequirement
 
 doc: Formats GDC SvABA Indel VCFs 
