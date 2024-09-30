@@ -73,7 +73,6 @@ steps:
   formatSvABAWorkflow:
     run: ../tools/format_svaba_vcf.cwl
     in:
-      origin_vcf: input_vcf
       input_vcf: firstUpdate/output_file
       output_filename: 
         source: file_prefix 
