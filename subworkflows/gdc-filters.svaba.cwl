@@ -90,7 +90,7 @@ steps:
   formatFinalWorkflow:
     run: ./format/merge_and_format_final_vcfs_wf.cwl
     in:
-      input_snp_vcf: dtoxogWorkflow/dtoxog_vcf
+      input_snp_vcf: formatVcfWorkflow/snv_vcf
       input_indel_vcf: formatVcfWorkflow/indel_vcf
       full_reference_sequence_dictionary: full_ref_dictionary
       main_reference_sequence_dictionary: main_ref_dictionary
