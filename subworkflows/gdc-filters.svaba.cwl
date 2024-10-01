@@ -1,6 +1,6 @@
 cwlVersion: v1.0
 class: Workflow
-id: gdc_filters_minimal_wf
+id: gdc_filters_svaba_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
@@ -47,14 +47,6 @@ inputs:
     type: float
  
 outputs:
-  dkfz_qc_archive:
-    type: File
-    outputSource: dkfzWorkflow/dkfz_qc_archive
-
-  dtoxog_archive:
-    type: File
-    outputSource: dtoxogWorkflow/dtoxog_archive
-
   final_vcf:
     type: File
     outputSource: formatFinalWorkflow/processed_vcf

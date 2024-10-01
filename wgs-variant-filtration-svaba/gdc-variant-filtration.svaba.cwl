@@ -137,7 +137,7 @@ steps:
     in:
       db_file: prepare_files/dnaseq_metrics_db
       input_state: sqlite_input_state
-    out: [oxoq_score]
+    out: [oxoq_score, oxoq_score_file]
 
   get_filename_prefix:
     run: ../tools/make_file_prefix.cwl
@@ -163,14 +163,13 @@ steps:
       main_ref_dictionary: prepare_files/main_ref_dictionary
       vcf_metadata: make_vcf_record/output
       oxoq_score: extract_oxoq/oxoq_score
-    out: [ dkfz_qc_archive, dtoxog_archive, final_vcf ]
+    out: [ final_vcf ]
 
   make_archive:
     run: ../tools/archive_list.cwl
     in:
       input_files:
-        - run_filter/dkfz_qc_archive
-        - run_filter/dtoxog_archive
+        - extract_oxoq/oxoq_score_file
       output_archive_name:
         source: get_filename_prefix/output
         valueFrom: $(self + '.variant_filtration_archive.tar.gz')
