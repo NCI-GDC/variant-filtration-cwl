@@ -87,10 +87,6 @@ outputs:
     type: string
     outputSource: uuid_vcf_index/output
 
-  tar_archive_id:
-    type: string
-    outputSource: uuid_archive/output
-
 steps:
   make_vcf_record:
     run: ../tools/make_vcf_record.cwl
@@ -137,7 +133,7 @@ steps:
     in:
       db_file: prepare_files/dnaseq_metrics_db
       input_state: sqlite_input_state
-    out: [oxoq_score, oxoq_score_file]
+    out: [oxoq_score]
 
   get_filename_prefix:
     run: ../tools/make_file_prefix.cwl
@@ -165,16 +161,6 @@ steps:
       oxoq_score: extract_oxoq/oxoq_score
     out: [ final_vcf ]
 
-  make_archive:
-    run: ../tools/archive_list.cwl
-    in:
-      input_files:
-        - extract_oxoq/oxoq_score_file
-      output_archive_name:
-        source: get_filename_prefix/output
-        valueFrom: $(self + '.variant_filtration_archive.tar.gz')
-    out: [ output_archive ]
-
   upload_vcf:
     run: ../tools/bio_client_upload_pull_uuid.cwl
     in:
@@ -199,17 +185,6 @@ steps:
         valueFrom: $(self.secondaryFiles[0])
     out: [output]
 
-  upload_archive:
-    run: ../tools/bio_client_upload_pull_uuid.cwl
-    in:
-      config_file: bioclient_config
-      upload_bucket: upload_bucket
-      upload_key:
-        source: [job_uuid, make_archive/output_archive]
-        valueFrom: $(self[0])/$(self[1].basename)
-      local_file: make_archive/output_archive
-    out: [output]
-
   uuid_vcf:
     run: ../tools/emit_json_value.cwl
     in:
@@ -222,14 +197,6 @@ steps:
     run: ../tools/emit_json_value.cwl
     in:
       input: upload_vcf_index/output
-      key:
-        valueFrom: 'did'
-    out: [output]
-
-  uuid_archive:
-    run: ../tools/emit_json_value.cwl
-    in:
-      input: upload_archive/output
       key:
         valueFrom: 'did'
     out: [output]

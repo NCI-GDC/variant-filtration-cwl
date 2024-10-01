@@ -51,11 +51,6 @@ outputs:
         ${
            return parseFloat(self[0].contents); 
          }
-         
-  oxoq_score_file:
-    type: File
-    outputBinding:
-      glob: "oxoq.txt" 
 
 stdout: "oxoq.txt"
 baseCommand: [extract-oxoq-from-sqlite]
