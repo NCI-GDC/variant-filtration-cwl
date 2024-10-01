@@ -87,33 +87,6 @@ steps:
       sequence_dictionary: full_ref_dictionary 
     out: [ snv_vcf, indel_vcf ]
 
-  dkfzWorkflow:
-    run: ./filter/dkfz_filter_wf.cwl
-    in:
-      input_snp_vcf: formatVcfWorkflow/snv_vcf
-      bam: tumor_bam
-      bam_index: tumor_bam_index
-      reference_sequence: full_ref_fasta
-      reference_sequence_index: full_ref_fasta_index
-      uuid: file_prefix 
-    out: [ dkfz_vcf, dkfz_qc_archive ]
-
-  dtoxogWorkflow:
-    run: ./filter/dtoxog_filter_wf.cwl
-    in:
-      input_snp_vcf: dkfzWorkflow/dkfz_vcf
-      oxoq_score: oxoq_score
-      bam: tumor_bam
-      bam_index: tumor_bam_index
-      full_reference_sequence: full_ref_fasta
-      full_reference_sequence_index: full_ref_fasta_index
-      full_reference_sequence_dictionary: full_ref_dictionary
-      main_reference_sequence: main_ref_fasta
-      main_reference_sequence_index: main_ref_fasta_index
-      main_reference_sequence_dictionary: main_ref_dictionary
-      uuid: file_prefix 
-    out: [ dtoxog_archive, dtoxog_vcf ] 
-
   formatFinalWorkflow:
     run: ./format/merge_and_format_final_vcfs_wf.cwl
     in:
