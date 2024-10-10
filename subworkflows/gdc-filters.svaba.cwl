@@ -12,12 +12,6 @@ inputs:
   input_vcf:
     type: File
     doc: The VCF file you want to filter
-  tumor_bam:
-    type: File
-    doc: The tumor BAM file
-  tumor_bam_index:
-    type: File
-    doc: The tumor BAI file
   file_prefix:
     type: string
     doc: prefix for filenames 

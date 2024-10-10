@@ -103,12 +103,10 @@ steps:
     out: [output]
 
   prepare_files:
-    run: ../subworkflows/utils/stage_inputs_wf.cwl
+    run: ../subworkflows/utils/stage_inputs_svaba_wf.cwl
     in:
       bioclient_config: bioclient_config
       dnaseq_metrics_id: input_dnaseq_metrics_db
-      tumor_bam_id: tumor_bam_uuid
-      tumor_bam_index_id: tumor_bam_index_uuid
       vcf_id: input_vcf_id
       full_ref_fasta_id: full_ref_fasta_id
       full_ref_fasta_index_id: full_ref_fasta_index_id
@@ -118,8 +116,6 @@ steps:
       main_ref_dictionary_id: main_ref_dictionary_id
     out:
       - dnaseq_metrics_db
-      - tumor_bam
-      - tumor_bam_index
       - input_vcf
       - full_ref_fasta
       - full_ref_fai
@@ -148,8 +144,6 @@ steps:
     run: ../subworkflows/gdc-filters.svaba.cwl
     in:
       input_vcf: prepare_files/input_vcf
-      tumor_bam: prepare_files/tumor_bam
-      tumor_bam_index: prepare_files/tumor_bam_index
       file_prefix: get_filename_prefix/output
       full_ref_fasta: prepare_files/full_ref_fasta
       full_ref_fasta_index: prepare_files/full_ref_fai
