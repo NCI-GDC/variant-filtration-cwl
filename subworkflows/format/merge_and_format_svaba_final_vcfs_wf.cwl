@@ -41,19 +41,19 @@ steps:
         valueFrom: $(self + '.merged.seqdict.vcf')
     out: [ output_file ]
 
-  formatSvABAWorkflow:
-    run: ../tools/format_svaba_vcf.cwl
+  format_svaba_final:
+    run: ../../tools/format_svaba_vcf.cwl
     in:
-      input_vcf: firstUpdate/output_file
+      input_vcf: update_dictionary/output_file
       output_filename:
-        source: file_prefix
+        source: uuid
         valueFrom: "$(self + '.svaba.reheader.vcf')"
     out: [ output_file ]
 
   contig_filter:
     run: ../../tools/contig_filter.cwl
     in:
-      input_vcf: update_dictionary/output_file
+      input_vcf: format_svaba_final/output_file
       output_vcf:
         source: uuid
         valueFrom: $(self + '.merged.seqdict.contigfilter.vcf')
