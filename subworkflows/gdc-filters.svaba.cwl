@@ -65,25 +65,16 @@ steps:
         valueFrom: "$(self + '.svaba.reheader.vcf')"
     out: [ output_file ]
 
-  contigFilter:
-    run: ../tools/contig_filter.cwl
-    in:
-      input_vcf: formatSvABAWorkflow/output_file
-      output_vcf:
-        source: file_prefix 
-        valueFrom: $(self + '.main.seqdict.contigfilter.vcf')
-    out: [ output_vcf_file ]
-
   formatVcfWorkflow:
     run: ./format/format_input_vcf_wf.cwl
     in:
-      input_vcf: contigFilter/output_vcf_file
+      input_vcf: formatSvABAWorkflow/output_file
       uuid: file_prefix 
       sequence_dictionary: full_ref_dictionary 
     out: [ snv_vcf, indel_vcf ]
 
   formatFinalWorkflow:
-    run: ./format/merge_and_format_final_vcfs_wf.cwl
+    run: ./format/merge_and_format_svaba_final_vcfs_wf.cwl
     in:
       input_snp_vcf: formatVcfWorkflow/snv_vcf
       input_indel_vcf: formatVcfWorkflow/indel_vcf
