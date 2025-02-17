@@ -145,7 +145,7 @@ steps:
     out: [ output ]
 
   run_filter:
-    run: ../subworkflows/wgs-variant-filtration-strelka
+    run: ../subworkflows/gdc-filters.strelka.cwl
     in:
       input_vcf: prepare_files/input_vcf
       tumor_bam: prepare_files/tumor_bam
