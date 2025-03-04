@@ -129,10 +129,22 @@ steps:
       uuid: file_prefix 
     out: [ dtoxog_archive, dtoxog_vcf ] 
 
+  head_snp:
+    run: ../tools/fix_header_int.cwl
+    in:
+      vcf_file: dtoxogWorkflow/dtoxog_vcf
+    out: [fixed_head_vcf]
+
+  head_indel:
+    run: ../tools/fix_header_int.cwl
+    in:
+      vcf_file: add_format_indel/fixed_head_vcf
+    out: [fixed_head_vcf]
+
   sort_snp:
     run: ../tools/picard_sort.cwl
     in:
-      input_vcf: dtoxogWorkflow/dtoxog_vcf
+      input_vcf: head_snp/fixed_head_vcf
       output_filename: 
         source: file_prefix
         valueFrom: $(self + '.sorted.vcf')
@@ -142,13 +154,12 @@ steps:
   sort_indel:
     run: ../tools/picard_sort.cwl
     in:
-      input_vcf: add_format_indel/fixed_head_vcf
+      input_vcf: head_indel/fixed_head_vcf
       output_filename: 
         source: file_prefix
         valueFrom: $(self + '.sorted.indel.vcf')
       sequence_dictionary: full_ref_dictionary
     out: [output_vcf_file]
-
 
   formatFinalWorkflow:
     run: ./format/merge_and_format_final_vcfs_wf.cwl
