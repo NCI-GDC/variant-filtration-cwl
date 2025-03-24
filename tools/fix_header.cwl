@@ -6,7 +6,7 @@ requirements:
   - class: InlineJavascriptRequirement
   - class: ShellCommandRequirement
   - class: DockerRequirement
-    dockerPull: "docker.osdc.io/ncigdc/bio-alpine:base"
+    dockerPull: "{{ docker_repo }}/bio-alpine:{{ bio-alpine }}"
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.vcf_file)

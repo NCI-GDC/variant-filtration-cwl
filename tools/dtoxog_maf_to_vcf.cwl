@@ -3,7 +3,7 @@ class: CommandLineTool
 id: dtoxog_maf_to_vcf
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/variant-filtration-tool:1.0.2
+    dockerPull: {{ docker_repo }}/variant-filtration-tool:{{ variant-filtration-tool }}
   - class: InlineJavascriptRequirement
     expressionLib:
       $import: ./util_lib.cwl

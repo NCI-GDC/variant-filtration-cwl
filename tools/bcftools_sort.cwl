@@ -4,7 +4,7 @@ id: bcftools_sort_vcf
 requirements:
   - class: InlineJavascriptRequirement
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/bcftools:1.9 
+    dockerPull: "{{ docker_repo }}/bcftools:{{ bcftools }}"
   - class: ResourceRequirement
     coresMin: 1 
     ramMin: 1000

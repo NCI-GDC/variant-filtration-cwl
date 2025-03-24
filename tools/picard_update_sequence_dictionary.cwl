@@ -3,7 +3,7 @@ cwlVersion: v1.0
 id: picard_update_sequence_dictionary
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/picard:2.26.10
+    dockerPull: "{{ docker_repo }}/picard:{{ picard }}"
   - class: InlineJavascriptRequirement
     expressionLib:
       $import: ./util_lib.cwl

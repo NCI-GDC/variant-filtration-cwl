@@ -4,7 +4,7 @@ id: dkfz_bias_filter
 requirements:
   - class: ShellCommandRequirement
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/dkfz-biasfilter:v1.2.2
+    dockerPull: "{{ docker_repo }}/dkfz-biasfilter:{{ dkfz-biasfilter }}"
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:

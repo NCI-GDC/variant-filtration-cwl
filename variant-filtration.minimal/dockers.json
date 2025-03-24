@@ -1,4 +1,13 @@
 {
-        "docker_repository": "docker.osdc.io/ncigdc",
-        "bio_client": "latest"
+        "docker_repo": "docker.osdc.io/ncigdc",
+        "bio_client": "latest",
+        "bio-alpine": "base",
+        "variant-filtration-tool": "1.0.2",
+        "alpine": "latest",
+        "bcftools": "1.9",
+        "tabix": "latest",
+        "broad-oxog-tool": "393936508505ce75838dca6c8952a5c0ae6d9eda",
+        "dkfz-biasfilter": "v1.2.2",
+        "fpfilter": "1.0-4f094a3",
+        "picard": "2.26.10"
 }
