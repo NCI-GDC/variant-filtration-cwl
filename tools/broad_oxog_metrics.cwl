@@ -3,7 +3,7 @@ cwlVersion: v1.0
 id: broad_oxog_metrics
 requirements:
   - class: DockerRequirement
-    dockerPull: "{{ docker_repo }}/broad-oxog-tool:{{ broad-oxog-tool }}"
+    dockerPull: "{{ docker_repo }}/broad-oxog-tool:{{ broad_oxog_tool }}"
   - class: InlineJavascriptRequirement
     expressionLib:
       $import: ./util_lib.cwl

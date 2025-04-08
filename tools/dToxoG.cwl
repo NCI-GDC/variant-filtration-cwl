@@ -3,7 +3,7 @@ class: CommandLineTool
 id: dtoxog_tool
 requirements:
   - class: DockerRequirement
-    dockerPull: "{{ docker_repo }}/broad-oxog-tool:{{ broad-oxog-tool }}" 
+    dockerPull: "{{ docker_repo }}/broad-oxog-tool:{{ broad_oxog_tool }}" 
   - class: ShellCommandRequirement
   - class: InlineJavascriptRequirement
   - class: EnvVarRequirement

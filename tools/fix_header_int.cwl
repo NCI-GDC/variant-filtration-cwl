@@ -6,7 +6,7 @@ requirements:
   - class: InlineJavascriptRequirement
   - class: ShellCommandRequirement
   - class: DockerRequirement
-    dockerPull: "{{ docker_repo }}/bio-alpine:{{ bio-alpine }}"
+    dockerPull: "{{ docker_repo }}/bio-alpine:{{ bio_alpine }}"
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.vcf_file)
