@@ -82,7 +82,7 @@ outputs:
     doc: "The filtered vcf file"
 
   output_qc_folder:
-    type: Directory?
+    type: Directory
     outputBinding:
       glob: $(inputs.uuid + '.dkfz_qcSummary')
     doc: "The qc folder"
