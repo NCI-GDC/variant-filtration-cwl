@@ -41,19 +41,10 @@ steps:
         valueFrom: $(self + '.merged.seqdict.vcf')
     out: [ output_file ]
 
-  format_svaba_final:
-    run: ../../tools/format_svaba_vcf.cwl
-    in:
-      input_vcf: update_dictionary/output_file
-      output_filename:
-        source: uuid
-        valueFrom: "$(self + '.svaba.reheader.vcf')"
-    out: [ output_file ]
-
   contig_filter:
     run: ../../tools/contig_filter.cwl
     in:
-      input_vcf: format_svaba_final/output_file
+      input_vcf: update_dictionary/output_file
       output_vcf:
         source: uuid
         valueFrom: $(self + '.merged.seqdict.contigfilter.vcf')
@@ -95,10 +86,19 @@ steps:
         valueFrom: $(self.normal_bam_uuid)
     out: [ output_vcf_file ]
 
+  format_svaba_final:
+    run: ../../tools/format_svaba_vcf.cwl
+    in:
+      input_vcf: format_header/output_vcf_file
+      output_filename:
+        source: uuid
+        valueFrom: "$(self + '.svaba.reheader.vcf')"
+    out: [ output_file ]
+
   vcf_convert:
     run: ../../tools/picard_vcf_format_converter.cwl
     in:
-      input_vcf: format_header/output_vcf_file
+      input_vcf: format_svaba_final/output_file
       output_filename:
         source: uuid
         valueFrom: $(self + '.variant_filtration.vcf.gz')
