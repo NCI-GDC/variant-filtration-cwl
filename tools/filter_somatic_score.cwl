@@ -3,7 +3,7 @@ class: CommandLineTool
 label: filter_somatic_score 
 requirements:
   - class: DockerRequirement
-    dockerPull: "{{ docker_repo }}/variant-filtration-tool:{{ variant-filtration-tool }}"
+    dockerPull: "{{ docker_repo }}/variant-filtration-tool:{{ variant_filtration_tool }}"
   - class: InlineJavascriptRequirement
     expressionLib:
       $import: ./util_lib.cwl

@@ -3,7 +3,7 @@ class: CommandLineTool
 id: extract_oxoq_from_sqlite
 requirements:
   - class: DockerRequirement
-    dockerPull: "{{ docker_repo }}/variant-filtration-tool:{{ variant-filtration-tool }}"
+    dockerPull: "{{ docker_repo }}/variant-filtration-tool:{{ variant_filtration_tool }}"
   - class: InlineJavascriptRequirement
   - class: ResourceRequirement
     coresMin: 1
