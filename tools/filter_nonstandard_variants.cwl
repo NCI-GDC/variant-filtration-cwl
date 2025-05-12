@@ -3,7 +3,7 @@ class: CommandLineTool
 id: filter_nonstandard_variants 
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/variant-filtration-tool:1.0.2
+    dockerPull: "{{ docker_repo }}/variant-filtration-tool:{{ variant_filtration_tool }}"
   - class: InlineJavascriptRequirement
     expressionLib:
       $import: ./util_lib.cwl

@@ -3,7 +3,7 @@ class: CommandLineTool
 id: picard_merge_vcfs
 requirements:
   - class: DockerRequirement
-    dockerPull: quay.io/ncigdc/picard:2.26.10
+    dockerPull: "{{ docker_repo }}/picard:{{ picard }}"
   - class: InlineJavascriptRequirement
     expressionLib:
       $import: ./util_lib.cwl

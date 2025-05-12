@@ -74,7 +74,7 @@ steps:
     out: [ snv_vcf, indel_vcf ]
 
   formatFinalWorkflow:
-    run: ./format/merge_and_format_svaba_final_vcfs_wf.cwl
+    run: ./format/merge_and_format_final_vcfs_wf.cwl
     in:
       input_snp_vcf: formatVcfWorkflow/snv_vcf
       input_indel_vcf: formatVcfWorkflow/indel_vcf
