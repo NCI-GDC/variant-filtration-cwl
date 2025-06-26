@@ -34,4 +34,4 @@ outputs:
     outputBinding:
       glob: $(inputs.output_vcf)
 
-baseCommand: [position-filter-dkfz]
+baseCommand: [gdc_filtration_tools, position-filter-dkfz]

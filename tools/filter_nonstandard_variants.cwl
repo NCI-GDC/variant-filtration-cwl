@@ -36,4 +36,4 @@ outputs:
       glob: $(inputs.output_filename)
     doc: Filtered VCF file
 
-baseCommand: [filter-nonstandard-variants]
+baseCommand: [gdc_filtration_tools, filter-nonstandard-variants]

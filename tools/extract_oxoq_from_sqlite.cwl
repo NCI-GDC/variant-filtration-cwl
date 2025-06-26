@@ -53,4 +53,4 @@ outputs:
          }
 
 stdout: "oxoq.txt"
-baseCommand: [extract-oxoq-from-sqlite]
+baseCommand: [gdc_filtration_tools, extract-oxoq-from-sqlite]

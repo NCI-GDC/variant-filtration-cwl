@@ -30,4 +30,4 @@ outputs:
       - ".tbi"
     doc: Formatted VCF file
 
-baseCommand: [format-pindel-vcf]
+baseCommand: [gdc_filtration_tools, format-pindel-vcf]

@@ -44,4 +44,4 @@ outputs:
     secondaryFiles:
         - ".tbi" 
 
-baseCommand: [add-oxog-filters]
+baseCommand: [gdc_filtration_tools, add-oxog-filters]
