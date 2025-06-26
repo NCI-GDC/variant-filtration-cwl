@@ -8,6 +8,6 @@
         "tabix": "latest",
         "broad_oxog_tool": "393936508505ce75838dca6c8952a5c0ae6d9eda",
         "dkfz_biasfilter": "v1.2.2",
-        "fpfilter": "1.0-4f094a3",
+        "fpfilter": "1.0.0-0ee5a45",
         "picard": "2.26.10"
 }
