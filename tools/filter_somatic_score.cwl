@@ -58,4 +58,4 @@ outputs:
     outputBinding:
       glob: $(inputs.output_vcf)
 
-baseCommand: [filter-somatic-score]
+baseCommand: [gdc_filtration_tools, filter-somatic-score]

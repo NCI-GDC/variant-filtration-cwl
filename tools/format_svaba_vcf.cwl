@@ -28,4 +28,4 @@ outputs:
       glob: $(inputs.output_filename)
     doc: Updated VCF file
 
-baseCommand: [format-svaba-vcf]
+baseCommand: [gdc_filtration_tools, format-svaba-vcf]

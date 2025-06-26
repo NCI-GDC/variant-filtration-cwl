@@ -53,4 +53,4 @@ outputs:
     secondaryFiles:
         - ".tbi" 
 
-baseCommand: [dtoxog-maf-to-vcf]
+baseCommand: [gdc_filtration_tools, dtoxog-maf-to-vcf]

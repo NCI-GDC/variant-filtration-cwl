@@ -80,4 +80,4 @@ outputs:
     outputBinding:
       glob: $(inputs.output_vcf)
 
-baseCommand: [format-gdc-vcf]
+baseCommand: [gdc_filtration_tools, format-gdc-vcf]

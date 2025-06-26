@@ -28,4 +28,4 @@ outputs:
     outputBinding:
       glob: $(inputs.output_vcf)
 
-baseCommand: [filter-contigs]
+baseCommand: [gdc_filtration_tools, filter-contigs]

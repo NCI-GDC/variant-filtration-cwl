@@ -55,4 +55,4 @@ outputs:
       glob: $(inputs.output_filename) 
     doc: The MAF file 
 
-baseCommand: [create-dtoxog-maf]
+baseCommand: [gdc_filtration_tools, create-dtoxog-maf]
