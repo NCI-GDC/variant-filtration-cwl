@@ -53,7 +53,7 @@ inputs:
     doc: Main chromosomes only fasta index
     type: string
   main_ref_dictionary_id:
-    doc: Main chromosomes only fasta sequence dictionary
+    doc: Main chromosomes only fasta sequence dictionary.
     type: string
   reference_name:
     type: string
