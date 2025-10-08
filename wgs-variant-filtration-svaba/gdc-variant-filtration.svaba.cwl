@@ -11,7 +11,7 @@ requirements:
 inputs:
   project_id:
     type: string?
-    doc: GDC project id used for output filenames
+    doc: GDC project id used for output filenames 
   experimental_strategy:
     type: string
     doc: GDC experimental strategy used for output filenames
@@ -58,7 +58,7 @@ inputs:
   reference_name:
     type: string
     default: "GRCh38.d1.vd1.fa"
-    doc: The string to use for the reference name in the VCF header
+    doc: The string to use for the reference name in the VCF header. Default GRCh38.d1.vd1.fa.
   case_submitter_id:
     type: string
   case_id:
