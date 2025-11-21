@@ -1,11 +1,11 @@
 class: CommandLineTool
 cwlVersion: v1.0
-id: tabix
+id: htslib
 requirements:
   - class: InlineJavascriptRequirement
   - class: ShellCommandRequirement
   - class: DockerRequirement
-    dockerPull: "{{ docker_repo }}/tabix:{{ tabix }}"
+    dockerPull: "{{ docker_repo }}/htslib:{{ htslib }}"
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.input_file)

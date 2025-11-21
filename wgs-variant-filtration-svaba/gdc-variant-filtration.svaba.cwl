@@ -37,20 +37,8 @@ inputs:
   job_uuid:
     type: string
     doc: UUID to use for the job
-  full_ref_fasta_id:
-    doc: Full reference fasta containing all scaffolds
-    type: string
-  full_ref_fasta_index_id:
-    doc: Full reference fasta index
-    type: string
   full_ref_dictionary_id:
     doc: Full reference fasta sequence dictionary
-    type: string
-  main_ref_fasta_id:
-    doc: Main chromosomes only fasta
-    type: string
-  main_ref_fasta_index_id:
-    doc: Main chromosomes only fasta index
     type: string
   main_ref_dictionary_id:
     doc: Main chromosomes only fasta sequence dictionary.
@@ -108,20 +96,12 @@ steps:
       bioclient_config: bioclient_config
       dnaseq_metrics_id: input_dnaseq_metrics_db
       vcf_id: input_vcf_id
-      full_ref_fasta_id: full_ref_fasta_id
-      full_ref_fasta_index_id: full_ref_fasta_index_id
       full_ref_dictionary_id: full_ref_dictionary_id
-      main_ref_fasta_id: main_ref_fasta_id
-      main_ref_fasta_index_id: main_ref_fasta_index_id
       main_ref_dictionary_id: main_ref_dictionary_id
     out:
       - dnaseq_metrics_db
       - input_vcf
-      - full_ref_fasta
-      - full_ref_fai
       - full_ref_dictionary
-      - main_ref_fasta
-      - main_ref_fai
       - main_ref_dictionary
 
   extract_oxoq:
@@ -145,14 +125,9 @@ steps:
     in:
       input_vcf: prepare_files/input_vcf
       file_prefix: get_filename_prefix/output
-      full_ref_fasta: prepare_files/full_ref_fasta
-      full_ref_fasta_index: prepare_files/full_ref_fai
       full_ref_dictionary: prepare_files/full_ref_dictionary
-      main_ref_fasta: prepare_files/main_ref_fasta
-      main_ref_fasta_index: prepare_files/main_ref_fai
       main_ref_dictionary: prepare_files/main_ref_dictionary
       vcf_metadata: make_vcf_record/output
-      oxoq_score: extract_oxoq/oxoq_score
     out: [ final_vcf ]
 
   upload_vcf:

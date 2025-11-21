@@ -1,12 +1,12 @@
 cwlVersion: v1.0
 class: CommandLineTool
-id: format_svaba_vcf
+id: format_strelka_vcf
 requirements:
   - class: DockerRequirement
     dockerPull: "{{ docker_repo }}/variant-filtration-tool:{{ variant_filtration_tool }}"
   - class: InlineJavascriptRequirement
 
-doc: Formats GDC SvABA Indel VCFs 
+doc: Formats GDC Strelka Somatic VCFs 
 
 inputs:
   input_vcf:
@@ -17,7 +17,7 @@ inputs:
 
   output_filename:
     type: string
-    doc: output basename of output file
+    doc: output vcf filename
     inputBinding:
         position: 2
 
@@ -28,4 +28,4 @@ outputs:
       glob: $(inputs.output_filename)
     doc: Updated VCF file
 
-baseCommand: [gdc_filtration_tools, format-svaba-vcf]
+baseCommand: [gdc_filtration_tools, format-strelka-vcf]
