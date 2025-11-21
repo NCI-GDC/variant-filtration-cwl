@@ -15,20 +15,8 @@ inputs:
   file_prefix:
     type: string
     doc: prefix for filenames 
-  full_ref_fasta:
-    doc: Full reference fasta containing all scaffolds
-    type: File
-  full_ref_fasta_index:
-    doc: Full reference fasta index
-    type: File
   full_ref_dictionary:
     doc: Full reference fasta sequence dictionary
-    type: File
-  main_ref_fasta:
-    doc: Main chromosomes only fasta
-    type: File
-  main_ref_fasta_index:
-    doc: Main chromosomes only fasta index
     type: File
   main_ref_dictionary:
     doc: Main chromosomes only fasta sequence dictionary
@@ -36,9 +24,6 @@ inputs:
   vcf_metadata:
     doc: VCF metadata record
     type: "../tools/schemas.cwl#vcf_metadata_record"
-  oxoq_score:
-    doc: oxoq score from picard
-    type: float
  
 outputs:
   final_vcf:
@@ -46,23 +31,23 @@ outputs:
     outputSource: formatFinalWorkflow/processed_vcf
 
 steps:
+  formatSvABAWorkflow:
+    run: ../tools/format_svaba_vcf.cwl
+    in:
+      input_vcf: input_vcf
+      output_filename: 
+        source: file_prefix 
+        valueFrom: "$(self + '.svaba.reheader.vcf')"
+    out: [ output_file ]
+
   firstUpdate:
     run: ../tools/picard_update_sequence_dictionary.cwl
     in:
-      input_vcf: input_vcf
+      input_vcf: formatSvABAWorkflow/output_file
       sequence_dictionary: full_ref_dictionary
       output_filename:
         source: file_prefix 
         valueFrom: "$(self + '.first.dict.vcf')"
-    out: [ output_file ]
-
-  formatSvABAWorkflow:
-    run: ../tools/format_svaba_vcf.cwl
-    in:
-      input_vcf: firstUpdate/output_file
-      output_filename: 
-        source: file_prefix 
-        valueFrom: "$(self + '.svaba.reheader.vcf')"
     out: [ output_file ]
 
   formatVcfWorkflow:

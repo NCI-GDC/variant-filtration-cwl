@@ -1,6 +1,6 @@
 cwlVersion: v1.0
 class: Workflow
-id: gdc_filters_minimal_wf
+id: gdc_filters_strelka_wf
 requirements:
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
@@ -60,10 +60,19 @@ outputs:
     outputSource: formatFinalWorkflow/processed_vcf
 
 steps:
+  formatStrelkaVCF:
+    run: ../tools/format_strelka_vcf.cwl
+    in:
+      input_vcf: input_vcf
+      output_filename:
+        source: file_prefix
+        valueFrom: "$(self + '.formatted.vcf.gz')"
+    out: [ output_file ]
+
   firstUpdate:
     run: ../tools/picard_update_sequence_dictionary.cwl
     in:
-      input_vcf: input_vcf
+      input_vcf: formatStrelkaVCF/output_file
       sequence_dictionary: full_ref_dictionary
       output_filename:
         source: file_prefix 
@@ -78,34 +87,10 @@ steps:
       sequence_dictionary: full_ref_dictionary 
     out: [ snv_vcf, indel_vcf ]
 
-  add_gt:
-   run: ../tools/add_gt.cwl
-   in:
-     vcf_file: formatVcfWorkflow/snv_vcf
-   out: [ fixed_vcf ]
-
-  add_format:
-   run: ../tools/fix_header.cwl
-   in:
-     vcf_file: add_gt/fixed_vcf
-   out: [ fixed_head_vcf ]
-
-  add_gt_indel:
-   run: ../tools/add_gt.cwl
-   in:
-     vcf_file: formatVcfWorkflow/indel_vcf
-   out: [ fixed_vcf ]
-
-  add_format_indel:
-   run: ../tools/fix_header.cwl
-   in:
-     vcf_file: add_gt_indel/fixed_vcf
-   out: [ fixed_head_vcf ]
-
   dkfzWorkflow:
     run: ./filter/dkfz_filter_wf.cwl
     in:
-      input_snp_vcf: add_format/fixed_head_vcf
+      input_snp_vcf: formatVcfWorkflow/snv_vcf
       bam: tumor_bam
       bam_index: tumor_bam_index
       reference_sequence: full_ref_fasta
@@ -142,7 +127,7 @@ steps:
   sort_indel:
     run: ../tools/picard_sort.cwl
     in:
-      input_vcf: add_format_indel/fixed_head_vcf
+      input_vcf: formatVcfWorkflow/indel_vcf
       output_filename: 
         source: file_prefix
         valueFrom: $(self + '.sorted.indel.vcf')
