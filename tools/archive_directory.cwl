@@ -3,7 +3,7 @@ cwlVersion: v1.0
 id: archive_directory
 requirements:
   - class: DockerRequirement
-    dockerPull: "alpine:{{ alpine }}"
+    dockerPull: "{{ outside_repo }}/alpine:{{ alpine }}"
   - class: InlineJavascriptRequirement
   - class: ResourceRequirement
     coresMin: 1

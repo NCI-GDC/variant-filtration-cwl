@@ -1,6 +1,7 @@
 {
         "docker_repo": "docker.osdc.io/ncigdc",
-        "bio_client": "latest",
+        "outside_repo": "docker.osdc.io",
+	"bio_client": "latest",
         "bio_alpine": "base",
         "variant_filtration_tool": "v1.0.5",
         "alpine": "latest",
