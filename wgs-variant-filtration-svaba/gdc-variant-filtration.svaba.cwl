@@ -28,9 +28,6 @@ inputs:
   input_vcf_id:
     type: string
     doc: The VCF file ID you want to filter
-  input_vcf_index_id:
-    type: string
-    doc: The VCF file index ID
   sqlite_input_state:
     type: string
     doc: The value for input_state column to filter
@@ -56,8 +53,6 @@ inputs:
   tumor_aliquot_id:
     type: string
   tumor_bam_uuid:
-    type: string
-  tumor_bam_index_uuid:
     type: string
   normal_aliquot_submitter_id:
     type: string

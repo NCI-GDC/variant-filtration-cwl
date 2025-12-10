@@ -3,7 +3,7 @@
         "outside_repo": "docker.osdc.io",
         "bio_client": "latest",
         "bio_alpine": "base",
-        "variant_filtration_tool": "v1.0.5",
+        "variant_filtration_tool": "v1.0.6",
         "alpine": "latest",
         "bcftools": "1.9-2c37304",
         "htslib": "1.21-25f007d",
