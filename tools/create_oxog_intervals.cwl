@@ -30,4 +30,4 @@ outputs:
       glob: $(inputs.output_filename)
     doc: The interval list file
 
-baseCommand: [create-oxog-intervals]
+baseCommand: [gdc_filtration_tools, create-oxog-intervals]
