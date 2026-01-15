@@ -9,6 +9,6 @@
         "htslib": "1.21-25f007d",
         "broad_oxog_tool": "393936508505ce75838dca6c8952a5c0ae6d9eda",
         "dkfz_biasfilter": "v1.2.2",
-        "fpfilter": "1.0.0-0ee5a45",
+        "fpfilter": "1.0.0-a3f3cd6",
         "picard": "2.26.10-7c1f408"
 }
