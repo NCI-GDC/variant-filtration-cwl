@@ -53,7 +53,7 @@ steps:
   formatVcfWorkflow:
     run: ./format/format_input_vcf_wf.cwl
     in:
-      input_vcf: formatSvABAWorkflow/output_file
+      input_vcf: firstUpdate/output_file
       uuid: file_prefix 
       sequence_dictionary: full_ref_dictionary 
     out: [ snv_vcf, indel_vcf ]
